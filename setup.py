@@ -1,0 +1,21 @@
+from setuptools import setup, find_packages
+
+setup(
+    name='idlegame',
+    version='1.0.0',
+    packages=find_packages(),
+    install_requires=[
+        # TODO dependencies here
+    ],
+    entry_points={
+        'console_scripts': [
+            'idlegame=idlegame.game:main',
+        ],
+    },
+    description='A tiny idle game you can play right from your terminal, if you are bored at your software development job',
+    author='Ben Boonstra',
+    license='MIT',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    python_requires='>=3.6',
+)
