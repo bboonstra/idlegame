@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-save_file = 'savedata.pickle'
+save_file = 'idlegame-savedata.pickle'
 disallowed_usernames = ['cancel']
 base_mining_rate = 1
 sim_chunk_duration = 600 # 600 seconds = 10 minutes
