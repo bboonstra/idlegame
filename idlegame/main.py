@@ -5,6 +5,7 @@ from idlegame.data import handle_login
 from idlegame.idle import handle_claim
 from idlegame.profile import handle_profile
 from idlegame.nanobots import handle_nano, handle_list, handle_remove
+from idlegame.config import handle_sudo
 import colorama as c
 c.init()
 class CommandLineInterface(cmd.Cmd):
@@ -25,6 +26,7 @@ class CommandLineInterface(cmd.Cmd):
             "nano": handle_nano,
             "rm": handle_remove,
             "ls": handle_list,
+            "sudo": handle_sudo,
         }
 
     def handle_alias(self, player, *args, **kwargs):

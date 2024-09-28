@@ -1,4 +1,3 @@
-from prompt_toolkit import prompt
 from idlegame.data import AutosavedPlayer
 from enum import Enum
 
@@ -15,6 +14,9 @@ class Nanobot:
         self.idle_action = None
         self.event_actions = {}
         self.type = type
+        self.defense_rating = 1
+        if self.type == Nanotype.FIGHTER:
+            self.defense_rating += 1
         self.parse_logic(logic)
 
     def parse_logic(self, logic: str) -> None:
@@ -58,7 +60,7 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
             Use the `on` parameter for an event-driven job
             Use the `done` parameter to finish scripting
             Example:
-                idle harvest
+                idle mine
                 on attacking attack
                 on defending defend
                 done
