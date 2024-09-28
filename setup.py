@@ -2,14 +2,14 @@ from setuptools import setup, find_packages
 
 setup(
     name='idlegame',
-    version='1.0.1',
+    version='1.0.2',
     packages=find_packages(),
     install_requires=[
         # TODO dependencies here
     ],
     entry_points={
         'console_scripts': [
-            'idlegame=idlegame.game:main',
+            'idlegame=idlegame.main:main',
         ],
     },
     description='A tiny idle game you can play right from your terminal, if you are bored at your software development job',
