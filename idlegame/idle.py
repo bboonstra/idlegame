@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from data import AutosavedPlayer
+from .data import AutosavedPlayer
 
 def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Claim rewards in the game.

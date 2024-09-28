@@ -1,4 +1,4 @@
-from data import AutosavedPlayer
+from .data import AutosavedPlayer
 
 def handle_profile(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Check your profile.

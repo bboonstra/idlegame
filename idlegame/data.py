@@ -1,7 +1,7 @@
 import os
 import pickle
 import getpass
-import config
+from . import config
 
 def load(filename: str = config.save_file) -> dict:
     if os.path.exists(filename):

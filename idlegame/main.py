@@ -1,9 +1,9 @@
 import difflib
 import cmd
 import shlex
-from data import handle_login
-from idle import handle_claim
-from profile import handle_profile
+from .data import handle_login
+from .idle import handle_claim
+from .profile import handle_profile
 
 class CommandLineInterface(cmd.Cmd):
     prompt = 'idlegame % '
