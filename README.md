@@ -1,11 +1,11 @@
 [![PyPI](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml)
 # idlegame
 
-A delightful idle game to keep you entertained during those slow moments at your software development job. Whether you're waiting for a build to finish or taking a quick break, **idlegame** offers a fun way to pass the time.
+Ever find yourself stuck at your desk during slow moments in software development? **idlegame** is here to save the day! Whether you’re waiting for a build to finish or just need a quick breather, this idle game is your perfect companion to make those downtime moments a little more fun.
 
 ## Installation
 
-You can easily install **idlegame** via pip. Just run the following command:
+Getting started with **idlegame** is a breeze. Just whip out your terminal and run:
 
 ```bash
 pip install idlegame
@@ -13,27 +13,23 @@ pip install idlegame
 
 ## Usage
 
-Once installed, you can start the game by simply typing:
+Once it’s installed, you can jump right in by typing:
 
 ```bash
 idlegame
 ```
 
-Get ready to enjoy a simple yet engaging gaming experience designed to make your idle moments a bit more enjoyable!
-
 ## Features
 
-- **Easy to Play**: Just install and play, no complex setup required.
-- **Casual Gameplay**: Perfect for short breaks or when you need to step away from your main tasks.
-- **Offline Play**: Although it's unlikely you ever will be.
-- **IncrediSave**: Saves everything automatically all the time. Pretty cool, right?
+- **Easy to Play**: I literally can't think of a way to make it easier. Install and run in 2 steps!
+- **Casual Gameplay**: Ideal for short breaks or when you need to step away from coding.
+- **Offline Play**: Even when you’re not actively playing, your nanobots are hard at work.
+- **IncrediSave**: Automatic saves mean you’ll never lose progress. It’s like magic.
 
 ## Contributing
 
-If you'd like to contribute to **idlegame**, feel free to submit a pull request or open an issue on the GitHub repository. Your feedback and contributions are always welcome!
+Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
+This project is licensed under the MIT License. Check out the [LICENSE](LICENSE) file for more details.
