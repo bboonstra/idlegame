@@ -2,11 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='idlegame',
-    version='1.2.0',
+    version='1.4.0',
     packages=find_packages(),
-    install_requires=[
-        # TODO: dependencies here
-    ],
+    install_requires=[],
     entry_points={
         'console_scripts': [
             'idlegame=idlegame.main:main',  # Existing entry point

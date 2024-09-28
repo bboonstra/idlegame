@@ -1,10 +1,21 @@
 from datetime import datetime, timezone
-from .data import AutosavedPlayer
+from data import AutosavedPlayer
 
-def handle_claim(player: AutosavedPlayer) -> None:
-    """Claim gold based on the last claim timestamp."""
+def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
+    """Claim rewards in the game.
+
+    Usage:
+        claim [--reward <reward>] [--silent]
+    
+    Options:
+        --reward <reward>  Specify the reward to claim.
+        --silent           Suppress output messages.
+    """
     now = datetime.now(timezone.utc)  # Use UTC time
     
+    # Check for the --silent option
+    silent_mode = kwargs.get('silent', False)
+
     if player.last_claim_timestamp is None:
         # If the player has never claimed, just set it to now
         player.last_claim_timestamp = now
@@ -18,7 +29,8 @@ def handle_claim(player: AutosavedPlayer) -> None:
     minutes_offline = int(time_offline.total_seconds() // 60)
     gold_gain = minutes_offline
     if minutes_offline < 1:
-        print("You haven't been offline for long enough to get any rewards!")
+        if not silent_mode:
+            print("You haven't been offline for long enough to get any rewards!")
         return
     
     player.gold += gold_gain
@@ -26,4 +38,5 @@ def handle_claim(player: AutosavedPlayer) -> None:
     # Update last claim timestamp to now
     player.last_claim_timestamp = now
     
-    print(f"You have claimed {gold_gain} gold for being offline for {minutes_offline} minutes!")
+    if not silent_mode:
+        print(f"You have claimed {gold_gain} gold for being offline for {minutes_offline} minutes!")
