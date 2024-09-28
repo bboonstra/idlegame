@@ -22,6 +22,8 @@ class AutosavedPlayer:
         'last_claim_timestamp': None,
         'settings': {},
         'aliases': {},
+        'nano_cores': {'normal': 1, 'miner': 0, 'fighter': 0, 'super': 0, 'warper': 0},
+        'nanos': [],
     }
 
     def __init__(self) -> None:

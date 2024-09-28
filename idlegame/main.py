@@ -4,6 +4,7 @@ import shlex
 from idlegame.data import handle_login
 from idlegame.idle import handle_claim
 from idlegame.profile import handle_profile
+from idlegame.nanobots import handle_nano, handle_list, handle_remove
 import colorama as c
 c.init()
 class CommandLineInterface(cmd.Cmd):
@@ -14,11 +15,16 @@ class CommandLineInterface(cmd.Cmd):
         self.player = player
         self.commands = {
             "logout": self.handle_exit,
+            "bye": self.handle_exit,
+            "exit": self.handle_exit,
             "man": self.handle_man,
             "uptime": handle_claim,
             "idlegame": self.handle_info,
             "alias": self.handle_alias,
             "whoami": handle_profile,
+            "nano": handle_nano,
+            "rm": handle_remove,
+            "ls": handle_list,
         }
 
     def handle_alias(self, player, *args, **kwargs):
@@ -133,7 +139,7 @@ class CommandLineInterface(cmd.Cmd):
         if command in self.player.aliases.keys():
             command = self.player.aliases[command]
             if command not in self.commands:
-                print(f"Alias '{args[0]}' is not a valid command.")
+                print(f"Your alias set to '{command}', but that is not a valid command.")
                 return
 
         if command in self.commands:

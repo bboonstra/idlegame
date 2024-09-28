@@ -20,8 +20,8 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
         # If the player has never claimed, just set it to now
         player.last_claim_timestamp = now
         player.save()
-        print("You have claimed your first reward of 100 gold!")
-        player.gold += 100
+        print("You have claimed your first reward of 1 regular nanocore!")
+        player.nano_cores['normal'] += 1
         return
 
     # Calculate time difference since last claim
