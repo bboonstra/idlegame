@@ -1,12 +1,13 @@
 import difflib
 import cmd
 import shlex
-from .data import handle_login
-from .idle import handle_claim
-from .profile import handle_profile
-
+from idlegame.data import handle_login
+from idlegame.idle import handle_claim
+from idlegame.profile import handle_profile
+import colorama as c
+c.init()
 class CommandLineInterface(cmd.Cmd):
-    prompt = 'idlegame % '
+    prompt = f"{c.Fore.BLUE}idlegame{c.Style.RESET_ALL} {c.Style.DIM}%{c.Style.RESET_ALL} "
 
     def __init__(self, player):
         super().__init__()
