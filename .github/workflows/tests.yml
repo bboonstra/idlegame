@@ -2,8 +2,6 @@ name: Unit Tests
 
 on:
   push:
-    branches:
-      - main
     tags:
         - 'release*'  # Only run this workflow when a version tag is pushed
 
