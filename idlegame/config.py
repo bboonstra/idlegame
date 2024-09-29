@@ -21,4 +21,3 @@ def handle_sudo(player, *args, **kwargs):
         # Subtract the specified number of seconds from the last claim timestamp
         player.last_claim_timestamp -= timedelta(seconds=int(ts))
         print(f"Added {int(ts)/60} mins to uptime")
-    

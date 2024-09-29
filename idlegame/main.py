@@ -32,7 +32,40 @@ class CommandLineInterface(cmd.Cmd):
             "cat": handle_cat,
             "head": handle_head,
             "tail": handle_tail,
+            "top": self.handle_top,
         }
+
+    def handle_top(self, player, *args, **kwargs):
+        """See your system's complexity and safety level.
+
+        Usage:
+            top
+        
+        This command shows the player's current system complexity and 
+        calculates their "safety" level based on the likelihood of high-power invasions.
+        """
+        # Define safety: scale from 100 (safe) to 0 (dangerous)
+        max_complexity = 1000  # This is an arbitrary max limit where it becomes extremely dangerous
+        if player.system_complexity < 3:
+            safety = 100
+        else:
+            safety = max(0, round(100 - (player.system_complexity / max_complexity) * 100))
+        
+        # Print complexity summary
+        print(f"System complexity: {player.system_complexity}")
+        print("Nanobot contributions to complexity:")
+        for bot in player.nanos:
+            print(f" - {bot.name}: {bot.complexity} complexity")
+        print(f"Aliases contribution: {len(player.aliases) / 10:.1f} complexity")
+
+        # Print safety level
+        print(f"Safety level: {safety}% safe")
+
+
+    def handle_info(self, player, *args, **kwargs):
+        """Use this command to learn about idlegame"""
+        print("idlegame is a Python package designed to both teach you zsh commands and entertain you while you're bored!\n"
+              "Get started: open the manual with `man`")
 
     def handle_alias(self, player, *args, **kwargs):
         """Set or show your aliases.
@@ -62,11 +95,6 @@ class CommandLineInterface(cmd.Cmd):
             print(f"Alias set: {alias} -> {command}")
         else:
             print("Usage: alias <alias_name> <command>")
-
-    def handle_info(self, player, *args, **kwargs):
-        """Learn about idlegame"""
-        print("idlegame is a Python package designed to both teach you zsh commands and entertain you while you're bored!\n"
-              "Get started: open the manual with `man`")
 
     def handle_man(self, player, *args, **kwargs):
         """Show help for commands."""
@@ -129,9 +157,6 @@ class CommandLineInterface(cmd.Cmd):
                 positional.append(arg)  # Regular positional argument
 
         return positional, kwargs
-
-
-
 
     def do_help(self, player, *args, **kwargs):
         """Override the default help command."""

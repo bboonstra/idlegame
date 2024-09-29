@@ -23,8 +23,8 @@ def simulate_defense(player: AutosavedPlayer, defending_bots: List[Nanobot]) -> 
         if bot.idle_action in ['defend', 'defense', 'guard', 'defender']:
             total_defense_power += 1
 
-    # Simulate the invasion strength (could be a random number or based on game state)
-    invasion_strength = random.randint(1, 10)  # Example invasion strength
+    # Simulate the invasion strength
+    invasion_strength = max(round((random.randf() + 0.1) * (player.system_complexity - 3)), 0)
     print(f"Invasion strength: {invasion_strength}, Total defense power: {total_defense_power}")
 
     # Calculate the ratio of defense power to invasion strength

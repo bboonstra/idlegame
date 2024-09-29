@@ -27,7 +27,9 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
         player.last_claim_timestamp = now
         player.nano_cores['normal'] += 1
         player.save()
-        print("You have claimed your first reward of 1 regular nano core!")
+        print("Here, you'll be able to see what has happened since you last checked on the uptime of your nanobots.")
+        print("You can create a nanobot with `nano`, but it requires a nanocore. Here's one to get you started.")
+        print("Recieved: 1 basic nano core")
         return
 
     # Calculate time difference since last claim

@@ -22,7 +22,12 @@ class Nanobot:
         if self.type == Nanotype.FIGHTER:
             self.defense_rating += 1
         self.logic = logic
+        self.complexity = 0
+        self.update_complexity()
         self.parse_logic()
+
+    def update_complexity(self):
+        self.complexity = (len(self.logic) / 10) * (2 if self.type != Nanotype.NORMAL else 1)
 
     def parse_logic(self) -> None:
         """Parse the nanobot logic and set idle and event actions."""
@@ -125,7 +130,6 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
 
     print(f"Nanobot '{bot_name}' created!")
 
-
 def handle_remove(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Remove a nanobot and reclaim its nano core(s).
 
@@ -204,7 +208,6 @@ def handle_list(player: AutosavedPlayer, *args, **kwargs) -> None:
             print(f"{'':<15}{'':<10}{'':<15}{text:<60}")
 
     print("-" * 100)
-
 
 def animated_loading_bar(duration: float) -> None:
     """Display an animated loading bar for the specified duration."""
@@ -306,7 +309,6 @@ def handle_truncate(player: AutosavedPlayer, *args, **kwargs) -> None:
     print(f"Truncated {bot_name}'s logic to:\n{truncated_logic}")
     player.save()  # Save changes to the player's data
 
-
 def handle_echo(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Echo text to a nanobot's logic.
 
@@ -363,7 +365,6 @@ def handle_cat(player: AutosavedPlayer, *args, **kwargs) -> None:
 
     print(nanobot.logic)
 
-
 def handle_head(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Display the first few lines of the nanobot's logic.
 
@@ -385,7 +386,6 @@ def handle_head(player: AutosavedPlayer, *args, **kwargs) -> None:
     logic_lines = nanobot.logic.splitlines()
     for line in logic_lines[:3]:
         print(line)
-
 
 def handle_tail(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Display the last few lines of the nanobot's logic.
