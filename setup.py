@@ -5,10 +5,13 @@ setup(
     version='1.0.2',
     packages=find_packages(),
     install_requires=[
-        # TODO dependencies here
+        # TODO: dependencies here
     ],
     entry_points={
         'console_scripts': [
+            'idlegame=idlegame.main:main',  # Existing entry point
+        ],
+        'gui_scripts': [  # This line enables running via python command
             'idlegame=idlegame.main:main',
         ],
     },
