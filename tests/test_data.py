@@ -1,22 +1,19 @@
 import unittest
-from idlegame.data import AutosavedPlayer
+from idlegame.nanobots import Nanobot, Nanotype
 
-class TestAutosavedPlayer(unittest.TestCase):
+class TestNanobots(unittest.TestCase):
     
     def setUp(self):
         """Set up a fresh AutosavedPlayer instance before each test."""
-        self.player = AutosavedPlayer()
+        self.nb = Nanobot("testbot", "idle mine", Nanotype.NORMAL)
     
-    def test_initial_gold(self):
-        """Test that a new player starts with 0 gold."""
-        self.assertEqual(self.player.gold, 0)
+    def test_setup(self):
+        """Test that a the Nanobot was setup properly."""
+        self.assertEqual(self.nb.name, "testbot")
     
-    def test_add_gold(self):
-        """Test adding gold to the player."""
-        self.player.gold += 50
-        self.assertEqual(self.player.gold, 50)
-    
-    # Add more tests here for other functionalities
+    def test_scripting(self):
+        """Test that the scripting was correctly interpreted."""
+        self.assertEqual(self.nb.idle_action, "mine")
 
 if __name__ == '__main__':
     unittest.main()
