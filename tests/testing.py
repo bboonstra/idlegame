@@ -1,4 +1,5 @@
 import unittest
+import unittest.mock
 from idlegame.nanobots import Nanobot, Nanotype
 from idlegame.data import save, load, AutosavedPlayer
 from io import StringIO
@@ -81,8 +82,12 @@ class TestCommandLineInterface(unittest.TestCase):
         self.player.packages = []
         output = self.redirect_stdout(self.cli.default, "apt")
         self.assertEqual(output, "apt has not been installed!", "apt should not be installed by default.")
+
+        # Mock user input for the 'apt' command
         self.player.packages = ['apt']
-        output = self.redirect_stdout(self.cli.default, "apt")
+        with unittest.mock.patch('builtins.input', side_effect=["yum"]):  # Simulate input here
+            output = self.redirect_stdout(self.cli.default, "apt")
+
         self.assertTrue(output.startswith("Available packages to install:"), "apt should work when installed.")
 
 class TestComplexity(unittest.TestCase):
@@ -90,13 +95,22 @@ class TestComplexity(unittest.TestCase):
         """Set up a fresh player instance."""
         self.temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pkl')
         self.temp_file.close()  # Close the file so it can be used by save/load
-        self.player = AutosavedPlayer(self.temp_file.name)  # Create an instance of your player class
+        self.player = AutosavedPlayer()  # Create an instance of your player class
+        self.player._data = self.player.DEFAULT_ATTRIBUTES
+        save(self.player.__dict__, self.temp_file.name)
+        self.player = AutosavedPlayer(self.temp_file.name)
+
+    def tearDown(self):
+        """Clean up the temporary file after tests."""
+        if os.path.exists(self.temp_file.name):
+            os.remove(self.temp_file.name)
 
     def test_complexity_updates(self):
         """Test that the complexity of the system updates when a bot is added."""
         self.assertEqual(self.player.system_complexity, 0.0, "System complexity should be 0 by default.")
 
         self.player.nanos.append(Nanobot("testbot", "1234567890", Nanotype.NORMAL))
+        self.player.update_complexity()  # Call a method to update complexity after adding a bot
 
         self.assertEqual(self.player.system_complexity, 1.0, "System complexity should be 1 with a bot with len(10) of code.")
 
