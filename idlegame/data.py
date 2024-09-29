@@ -80,7 +80,7 @@ class AutosavedPlayer():
             self.save()
 
     def automigrate(self) -> None:
-        for attr, default_value in self.DEFAULT_ATTRIBUTES.items():
+        for attr, default_value in self.DEFAULT_ATTRIBUTES.copy().items():
             if attr not in self._data:
                 self._data[attr] = default_value
         for bot in self.nanos:

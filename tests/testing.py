@@ -77,6 +77,7 @@ class TestCommandLineInterface(unittest.TestCase):
         output = self.redirect_stdout(self.cli.default, "a")
         self.assertEqual(output, "Your alias is set to 'goob', but that is not a valid command.")  # Assert the output is as expected
         self.player.aliases = {}
+
     def test_packages(self):
         """Test that invalid aliases are correctly refused."""
         self.player.packages = []
@@ -96,7 +97,7 @@ class TestComplexity(unittest.TestCase):
         self.temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pkl')
         self.temp_file.close()  # Close the file so it can be used by save/load
         self.player = AutosavedPlayer()  # Create an instance of your player class
-        self.player._data = self.player.DEFAULT_ATTRIBUTES
+        self.player._data = self.player.DEFAULT_ATTRIBUTES.copy()
         save(self.player._data, self.temp_file.name)
         self.player = AutosavedPlayer(self.temp_file.name)
 
