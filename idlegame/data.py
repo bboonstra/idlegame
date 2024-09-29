@@ -96,3 +96,32 @@ def handle_login() -> AutosavedPlayer:
     print(f"Logged in as: {username}")
 
     return AutosavedPlayer()
+
+def handle_reboot(player, *args, **kwargs):
+    """DELETES ALL SAVE DATA."""
+
+    quick = kwargs.get('okayigetit', False)
+
+    if not quick:
+        if input("Rebooting will PERMANENTLY DELETE all of your save data. Are you sure? Type 'YES'. ") != "YES":
+            print("Phew! Aborted, your save file is safe.")
+            return
+        
+        if input("ALL of your data will be deleted and you will start anew. Type your username to continue. ") != getpass.getuser():
+            print("Phew! Aborted, your save file is safe.")
+            return
+        
+        if input("This is your FINAL WARNING and this change is IRREVERSIBLE. Continue? Type 'OKAY i GeT It' to DELETE ALL DATA. ") != 'OKAY i GeT It':
+            print("Phew! Aborted, your save file is safe.")
+            return
+        
+    try:
+        os.remove(config.save_file)  # Delete the save file
+        print("All save data has been permanently deleted. You can now start anew.")
+        quit()
+    except FileNotFoundError:
+        print("The save file does not exist. Nothing to delete.")
+    except Exception as e:
+        print(f"An error occurred while deleting the data: {e}")
+
+    #delete the data, jeeze.

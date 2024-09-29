@@ -1,7 +1,7 @@
 import difflib
 import cmd
 import shlex
-from idlegame.data import handle_login
+from idlegame.data import handle_login, handle_reboot
 from idlegame.idle import handle_claim
 from idlegame.profile import handle_profile
 from idlegame.nanobots import handle_nano, handle_list, handle_remove, handle_fsck, handle_echo, handle_truncate
@@ -37,6 +37,7 @@ class CommandLineInterface(cmd.Cmd):
             "apt": packages.handle_apt,
             "yum": packages.handle_yum,
             "timetravel": packages.handle_tt,
+            "reboot": handle_reboot,
         }
 
     def handle_top(self, player, *args, **kwargs):
