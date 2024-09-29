@@ -7,6 +7,7 @@ from idlegame.profile import handle_profile
 from idlegame.nanobots import handle_nano, handle_list, handle_remove, handle_fsck, handle_echo, handle_truncate
 from idlegame.nanobots import handle_cat, handle_head, handle_tail
 from idlegame.config import handle_sudo
+import idlegame.packages as packages
 import colorama as c
 c.init()
 class CommandLineInterface(cmd.Cmd):
@@ -33,6 +34,9 @@ class CommandLineInterface(cmd.Cmd):
             "head": handle_head,
             "tail": handle_tail,
             "top": self.handle_top,
+            "apt": packages.handle_apt,
+            "yum": packages.handle_yum,
+            "timetravel": packages.handle_tt,
         }
 
     def handle_top(self, player, *args, **kwargs):
@@ -108,7 +112,8 @@ class CommandLineInterface(cmd.Cmd):
             print("Available commands:")
             for cmd_name in self.commands:
                 if cmd_name not in ['sudo']:
-                    print(f"  {c.Style.BRIGHT}{c.Fore.YELLOW}{cmd_name}{c.Style.RESET_ALL} - {self.commands[cmd_name].__doc__.strip()}\n")
+                    if cmd_name in player.packages or cmd_name not in packages.package_requirements.keys():
+                        print(f"  {c.Style.BRIGHT}{c.Fore.YELLOW}{cmd_name}{c.Style.RESET_ALL} - {self.commands[cmd_name].__doc__.strip()}\n")
 
     def handle_exit(self, player, *args, **kwargs):
         """Exit the game."""

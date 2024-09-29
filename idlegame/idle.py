@@ -2,6 +2,7 @@ from datetime import datetime, timezone, timedelta
 from idlegame.data import AutosavedPlayer
 from idlegame.battle import simulate_defense
 import idlegame.config as config
+from idlegame.packages import install_package
 import random
 
 def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
@@ -93,3 +94,5 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
         print(f"{invasions_total} invasions occurred during your offline time.")
         if nanobots_broken > 0:
             print(f"{nanobots_broken} of your bots was broken during the invasions.")
+    
+    install_package(player, 'apt')

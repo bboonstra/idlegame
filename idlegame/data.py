@@ -39,6 +39,8 @@ class AutosavedPlayer():
         'nanos': [],
         'system_complexity': 0.0,
         'warps': 0,
+        'packages': [],
+        'shopdata': {},
     }
 
     def __init__(self, override_directory=None) -> None:

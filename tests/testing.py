@@ -76,12 +76,21 @@ class TestCommandLineInterface(unittest.TestCase):
         output = self.redirect_stdout(self.cli.default, "a")
         self.assertEqual(output, "Your alias is set to 'goob', but that is not a valid command.")  # Assert the output is as expected
 
+    def test_packages(self):
+        """Test that invalid aliases are correctly refused."""
+        self.player.packages = []
+        output = self.redirect_stdout(self.cli.default, "apt")
+        self.assertEqual(output, "apt has not been installed!", "apt should not be installed by default.")
+        self.player.packages = ['apt']
+        output = self.redirect_stdout(self.cli.default, "apt")
+        self.assertTrue(output.startswith("Available packages to install:"), "apt should work when installed.")
+
 class TestComplexity(unittest.TestCase):
     def setUp(self):
         """Set up a fresh player instance."""
         self.temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pkl')
+        self.temp_file.close()  # Close the file so it can be used by save/load
         self.player = AutosavedPlayer(self.temp_file.name)  # Create an instance of your player class
-        print(self.player.system_complexity)
 
     def test_complexity_updates(self):
         """Test that the complexity of the system updates when a bot is added."""
@@ -90,7 +99,6 @@ class TestComplexity(unittest.TestCase):
         self.player.nanos.append(Nanobot("testbot", "1234567890", Nanotype.NORMAL))
 
         self.assertEqual(self.player.system_complexity, 1.0, "System complexity should be 1 with a bot with len(10) of code.")
-
 
 if __name__ == '__main__':
     unittest.main()
