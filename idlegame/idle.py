@@ -18,8 +18,11 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     
     # Check for the --silent option
     silent_mode = kwargs.get('silent', False)
+    startup_mode = kwargs.get('startup_mode', False)
 
     if player.last_claim_timestamp is None:
+        if startup_mode:
+            return
         # If the player has never claimed, initialize last claim timestamp and give 1 core.
         player.last_claim_timestamp = now
         player.nano_cores['normal'] += 1
@@ -32,14 +35,14 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     total_seconds_offline = int(time_offline.total_seconds())
     
     if total_seconds_offline < 600:
-        if not silent_mode:
+        if (not startup_mode) and (not silent_mode):
             print("Nothing has happened yet. You need to wait for at least 10 minutes to claim rewards!")
         return
     
     num_chunks = total_seconds_offline // config.sim_chunk_duration
 
     gold_gathered = 0
-    invasions_handled = 0
+    invasions_total = 0
     nanobots_broken = 0
 
     # Simulate each 10-minute chunk
@@ -50,20 +53,25 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
         defending_bots = []
 
         for bot in player.nanos:
+            # Bot does nothing if broken
+            if not bot.functional:
+                continue
+
             # Do event actions if applicable
             for event, action in bot.event_actions.items():
                 if event.lower() in ['battle.defense', 'defense', 'invasion'] and action in ['defend', 'join', 'support', 'defense'] and invasion_occurred:
                     defending_bots.append(bot)
-                    print(bot.name)
                     continue
             else:
                 # Otherwise do idle actions
-                if bot.idle_action == 'mine':
+                if bot.idle_action in ['mine', 'mining', 'miner']:
                     gold_gathered += config.base_mining_rate  # mine resources for this chunk
+                if bot.idle_action in ['defend', 'defense', 'defending']:
+                    defending_bots.append(bot)
 
         # Simulate defense if an invasion occurred
         if invasion_occurred:
-            invasions_handled += 1
+            invasions_total += 1
             nanobots_broken += simulate_defense(player, defending_bots)
             # TODO logic if you lose
 
@@ -80,6 +88,6 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     if not silent_mode:
         print(f"You were offline for {total_seconds_offline // 60} minutes.")
         print(f"You mined {gold_gathered} gold!")
-        print(f"{invasions_handled} invasions were handled during your offline time.")
+        print(f"{invasions_total} invasions occurred during your offline time.")
         if nanobots_broken > 0:
             print(f"{nanobots_broken} of your bots was broken during the invasions.")

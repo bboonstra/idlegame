@@ -17,7 +17,11 @@ def simulate_defense(player: AutosavedPlayer, defending_bots: List[Nanobot]) -> 
         return 0  # No bots to defend
 
     # Calculate total defense power from the defending bots
-    total_defense_power = sum(bot.defense_rating for bot in defending_bots)
+    total_defense_power = 0
+    for bot in defending_bots:
+        total_defense_power += bot.defense_rating
+        if bot.idle_action in ['defend', 'defense', 'guard', 'defender']:
+            total_defense_power += 1
 
     # Simulate the invasion strength (could be a random number or based on game state)
     invasion_strength = random.randint(1, 10)  # Example invasion strength
@@ -42,11 +46,16 @@ def simulate_defense(player: AutosavedPlayer, defending_bots: List[Nanobot]) -> 
     # Determine how many bots break based on calculated break chance
     for bot in defending_bots:
         if random.random() < break_chance:
-            player.nanos.remove(bot)  # Remove the broken bot from the player's list
-            print(f"One of your defending bots, '{bot.name}', was broken during an invasion!")
+            bot.functional = False
+            print(f"One of your defending bots, '{bot.name}', was broken during an invasion! Repair it with `fsck`.")
             bots_broken += 1
 
     if bots_broken == 0:
         print(f"Your defenses held against an invasion (Strength: {invasion_strength}).")
+
+    if invasion_strength > total_defense_power and bots_broken > 0:
+        lost_gold = min(player.gold, (total_defense_power - invasion_strength) * random.randrange(5, 20))
+        player.gold = lost_gold
+        print(f"Your defenses failed! Gold stolen: -{lost_gold}")
 
     return bots_broken

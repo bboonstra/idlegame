@@ -4,13 +4,12 @@ import shlex
 from idlegame.data import handle_login
 from idlegame.idle import handle_claim
 from idlegame.profile import handle_profile
-from idlegame.nanobots import handle_nano, handle_list, handle_remove
+from idlegame.nanobots import handle_nano, handle_list, handle_remove, handle_fsck, handle_echo, handle_truncate
+from idlegame.nanobots import handle_cat, handle_head, handle_tail
 from idlegame.config import handle_sudo
 import colorama as c
 c.init()
 class CommandLineInterface(cmd.Cmd):
-    prompt = f"{c.Fore.BLUE}idlegame{c.Style.RESET_ALL} {c.Style.DIM}%{c.Style.RESET_ALL} "
-
     def __init__(self, player):
         super().__init__()
         self.player = player
@@ -27,6 +26,12 @@ class CommandLineInterface(cmd.Cmd):
             "rm": handle_remove,
             "ls": handle_list,
             "sudo": handle_sudo,
+            "fsck": handle_fsck,
+            "echo": handle_echo,
+            "truncate": handle_truncate,
+            "cat": handle_cat,
+            "head": handle_head,
+            "tail": handle_tail,
         }
 
     def handle_alias(self, player, *args, **kwargs):
@@ -67,14 +72,15 @@ class CommandLineInterface(cmd.Cmd):
         """Show help for commands."""
         if args and args[0]:
             command = args[0]
-            if command in self.commands:  # Use the commands dictionary to check
+            if command in self.commands and command not in ['sudo']:  # Use the commands dictionary to check
                 print(self.commands[command].__doc__)
             else:
                 print(f" No manual entry for {command}")
         else:
             print("Available commands:")
             for cmd_name in self.commands:
-                print(f"  {cmd_name} - {self.commands[cmd_name].__doc__.strip()}")
+                if cmd_name not in ['sudo']:
+                    print(f"  {c.Style.BRIGHT}{c.Fore.YELLOW}{cmd_name}{c.Style.RESET_ALL} - {self.commands[cmd_name].__doc__.strip()}\n")
 
     def handle_exit(self, player, *args, **kwargs):
         """Exit the game."""
@@ -156,7 +162,9 @@ class CommandLineInterface(cmd.Cmd):
 
 def main():
     player = handle_login()
+    handle_claim(player, startup_mode=True)
     cli = CommandLineInterface(player)
+    cli.prompt = f"{c.Fore.BLUE}{player.username}@idlegame{c.Style.RESET_ALL} {c.Style.DIM}%{c.Style.RESET_ALL} "
     cli.cmdloop()
 
 if __name__ == '__main__':
