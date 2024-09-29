@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    tags:
+        - 'release*'  # Only run this workflow when a version tag is pushed
 
 jobs:
   test:
