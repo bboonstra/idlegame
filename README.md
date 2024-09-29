@@ -1,3 +1,4 @@
+[![PyPI](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml)
 # idlegame
 
 A delightful idle game to keep you entertained during those slow moments at your software development job. Whether you're waiting for a build to finish or taking a quick break, **idlegame** offers a fun way to pass the time.
