@@ -82,8 +82,11 @@ def handle_login() -> AutosavedPlayer:
 
     while True:  # Loop until a valid choice is made
         if not user_data:
+            print("Welcome to idlegame, the pip & play Python game!")
+            print("© 2024 Ben Boonstra MIT License.")
+
             default_username = getpass.getuser()
-            username = input(f"No users found. Press enter to start as {default_username}, or type in a name: ") or default_username
+            username = input(f"Press enter to start as {default_username}, or type in a name: ") or default_username
             
             if username in config.disallowed_usernames:
                 print("That username is not allowed. Please choose a different name.")
