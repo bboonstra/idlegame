@@ -3,7 +3,7 @@ name: Publish to PyPI
 on:
   push:
     tags:
-      - 'v*'  # Only run this workflow when a version tag is pushed
+      - 'release'  # Only run this workflow when a release tag is pushed
 
 jobs:
   build:
