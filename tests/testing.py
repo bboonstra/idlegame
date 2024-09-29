@@ -97,7 +97,7 @@ class TestComplexity(unittest.TestCase):
         self.temp_file.close()  # Close the file so it can be used by save/load
         self.player = AutosavedPlayer()  # Create an instance of your player class
         self.player._data = self.player.DEFAULT_ATTRIBUTES
-        save(self.player.__dict__, self.temp_file.name)
+        save(self.player._data, self.temp_file.name)
         self.player = AutosavedPlayer(self.temp_file.name)
 
     def tearDown(self):
