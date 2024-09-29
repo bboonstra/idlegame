@@ -76,7 +76,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.player.aliases['a'] = 'goob'
         output = self.redirect_stdout(self.cli.default, "a")
         self.assertEqual(output, "Your alias is set to 'goob', but that is not a valid command.")  # Assert the output is as expected
-        self.player.aliases = {}
+        del self.player.aliases['a']
 
     def test_packages(self):
         """Test that invalid aliases are correctly refused."""
@@ -108,7 +108,6 @@ class TestComplexity(unittest.TestCase):
 
     def test_complexity_updates(self):
         """Test that the complexity of the system updates when a bot is added."""
-        self.player.aliases = {}
         self.assertEqual(self.player.system_complexity, 0.0, "System complexity should be 0 by default.")
 
         self.player.nanos.append(Nanobot("testbot", "1234567890", Nanotype.NORMAL))

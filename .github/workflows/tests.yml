@@ -4,6 +4,7 @@ on:
   push:
     tags:
         - 'release*'  # Only run this workflow when a version tag is pushed
+        - 'test*'
 
 jobs:
   test:
