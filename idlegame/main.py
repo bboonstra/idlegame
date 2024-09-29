@@ -1,6 +1,6 @@
 import difflib
-from data import handle_login, AutosavedPlayer
-from idle import handle_claim
+from .data import handle_login, AutosavedPlayer
+from .idle import handle_claim
 
 def main():
     def command_exit(player: AutosavedPlayer, *args):

@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from data import AutosavedPlayer
+from .data import AutosavedPlayer
 
 def handle_claim(player: AutosavedPlayer) -> None:
     """Claim gold based on the last claim timestamp."""
