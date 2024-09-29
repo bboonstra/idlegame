@@ -36,6 +36,7 @@ class CommandLineInterface(cmd.Cmd):
             "top": self.handle_top,
             "apt": packages.handle_apt,
             "yum": packages.handle_yum,
+            "trivia": packages.handle_trivia,
             "timetravel": packages.handle_tt,
             "reboot": handle_reboot,
         }

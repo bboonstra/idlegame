@@ -95,6 +95,14 @@ def handle_apt(player, *args, **kwargs):
     elif selection:
         print(f"{selection} is not a valid package.")
 
+def handle_trivia(player, *args, **kwargs):
+    """Lean about zsh, bash, and sh. Get a bonus once per day!"""
+    if not is_package_installed(player, 'trivia'):
+        print("trivia has not been installed!")
+        return
+
+    print("Coming soon...")
+
 def handle_yum(player, *args, **kwargs):
     """Buy things from the shop."""
     if not is_package_installed(player, 'yum'):
