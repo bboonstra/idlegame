@@ -19,10 +19,10 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     
     # Check for the --silent option
     silent_mode = kwargs.get('silent', False)
-    startup_mode = kwargs.get('startup_mode', False)
+    automatic = kwargs.get('automatic', False)
 
     if player.last_claim_timestamp is None:
-        if startup_mode:
+        if automatic:
             return
         # If the player has never claimed, initialize last claim timestamp and give 1 core.
         player.last_claim_timestamp = now
@@ -38,7 +38,7 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     total_seconds_offline = int(time_offline.total_seconds())
     
     if total_seconds_offline < 600:
-        if (not startup_mode) and (not silent_mode):
+        if (not automatic) and (not silent_mode):
             print("Nothing has happened yet. You need to wait for at least 10 minutes to claim rewards!")
         return
     

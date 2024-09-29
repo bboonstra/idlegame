@@ -13,9 +13,11 @@ def handle_profile(player: AutosavedPlayer, *args, **kwargs) -> None:
     short = kwargs.get('short', False)
 
     if short:
-        print(f"Level: {player.level} ({player.experience} exp) | HP: {player.hp}\nGold: {player.gold}")
+        print(f"System Complexity: {player.system_complexity} | Tree Health: {player.tree_health}\n"
+              f"Gold: {player.gold} | Nanobots: {len(player.nanos)}")
     else:
         print(f"--- {player.username} ---\n"
-              f"- Level: {player.level} ({player.experience} exp)\n"
-              f"- HP: {player.hp}\n"
-              f"- Gold: {player.gold}")
+              f"- System Complexity: {player.system_complexity} (see top)\n"
+              f"- Tree Health: {player.tree_health}\n"
+              f"- Gold: {player.gold}\n"
+              f"- Nanobots: {len(player.nanos)} (see ls)")

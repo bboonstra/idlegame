@@ -5,11 +5,14 @@ package_requirements = {
         'gold': 500,
         'nano_cores': 1,
     },
+    'trivia': {
+        'gold': 100,
+    },
     'timetravel': {
         'gold': 1000000,
         'warper_cores': 1,
         'required_names': ['Emmett Brown']
-    }
+    },
 }
 
 def install_package(player, package_name):

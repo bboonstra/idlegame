@@ -6,7 +6,6 @@ base_mining_rate = 1
 sim_chunk_duration = 600 # 600 seconds = 10 minutes
 invasion_chance_per_chunk = 0.05 # 5% per 10 mins
 fsck_cost = 100.0
-package_list = ['apt', 'yum']
 def handle_sudo(player, *args, **kwargs):
     # Good job, you found the secret sudo function! Use it, I don't care lol
     key = kwargs.get('k', '')

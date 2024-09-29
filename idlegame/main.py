@@ -193,7 +193,7 @@ class CommandLineInterface(cmd.Cmd):
 
 def main():
     player = handle_login()
-    handle_claim(player, startup_mode=True)
+    handle_claim(player, automatic=True)
     cli = CommandLineInterface(player)
     cli.prompt = f"{c.Fore.BLUE}{player.username}@idlegame{c.Style.RESET_ALL} {c.Style.DIM}%{c.Style.RESET_ALL} "
     cli.cmdloop()
