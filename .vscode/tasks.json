@@ -13,6 +13,16 @@
                 "isDefault": true
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Test idlegame",
+            "type": "shell",
+            "command": "python3 -m unittest discover -s tests",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
         }
     ]
 }

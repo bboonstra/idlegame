@@ -2,11 +2,26 @@ import os
 import pickle
 import getpass
 from . import config
+import logging
 
 def load(filename: str = config.save_file) -> dict:
+    """Load data from a pickle file.
+
+    Args:
+        filename (str): The path to the pickle file to load data from.
+
+    Returns:
+        dict: The data loaded from the file, or an empty dictionary if the file does not exist or an error occurs.
+    """
     if os.path.exists(filename):
-        with open(filename, 'rb') as f:
-            return pickle.load(f)
+        try:
+            with open(filename, 'rb') as f:
+                return pickle.load(f)
+        except (pickle.UnpicklingError, EOFError, FileNotFoundError) as e:
+            logging.error(f"Error loading data from {filename}: {e}")
+            return {}
+    else:
+        logging.warning(f"File {filename} does not exist. Returning empty dictionary.")
     return {}
 
 def save(data: dict, filename: str = config.save_file) -> None:
@@ -36,8 +51,7 @@ class AutosavedPlayer:
 
     def load(self, filename: str = config.save_file) -> dict:
         if os.path.exists(filename):
-            data = pickle.load(open(filename, 'rb'))
-            return data
+            return(load())
         print("Welcome to idlegame, the pip & play Python game!")
         print("idlegame emulates a zsh command line to play. Get started: `man idlegame` / `man commands`")
         print("© 2024 Ben Boonstra MIT License.")

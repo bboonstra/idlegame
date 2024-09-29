@@ -75,7 +75,7 @@ class CommandLineInterface(cmd.Cmd):
             if command in self.commands and command not in ['sudo']:  # Use the commands dictionary to check
                 print(self.commands[command].__doc__)
             else:
-                print(f" No manual entry for {command}")
+                print(f"No manual entry for {command}")
         else:
             print("Available commands:")
             for cmd_name in self.commands:
@@ -147,7 +147,7 @@ class CommandLineInterface(cmd.Cmd):
         if command in self.player.aliases.keys():
             command = self.player.aliases[command]
             if command not in self.commands:
-                print(f"Your alias set to '{command}', but that is not a valid command.")
+                print(f"Your alias is set to '{command}', but that is not a valid command.")
                 return
 
         if command in self.commands:
