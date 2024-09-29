@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='idlegame',
-    version='1.5.2',
+    version='1.6.0',
     packages=find_packages(),
     install_requires=[
         'colorama',
