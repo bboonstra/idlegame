@@ -93,7 +93,7 @@ class TestCommandLineInterface(unittest.TestCase):
 class TestComplexity(unittest.TestCase):
     def setUp(self):
         """Set up a fresh player instance."""
-        self.temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pkl')
+        self.temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pickle')
         self.temp_file.close()  # Close the file so it can be used by save/load
         self.player = AutosavedPlayer()  # Create an instance of your player class
         self.player._data = self.player.DEFAULT_ATTRIBUTES
