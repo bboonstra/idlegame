@@ -24,7 +24,8 @@ Get ready to enjoy a simple yet engaging gaming experience designed to make your
 
 - **Easy to Play**: Just install and play, no complex setup required.
 - **Casual Gameplay**: Perfect for short breaks or when you need to step away from your main tasks.
-- **Charming Design**: Engaging visuals and sound to enhance your experience.
+- **Offline Play**: Although it's unlikely you ever will be.
+- **IncrediSave**: Saves everything automatically all the time. Pretty cool, right?
 
 ## Contributing
 
