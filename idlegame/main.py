@@ -18,6 +18,7 @@ def main():
     # Map commands to functions, including aliases
     commands = {
         "exit": command_exit,
+        "quit": command_exit,
         "help": command_help,
         "claim": command_claim,
         "c": command_claim,
