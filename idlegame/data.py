@@ -56,8 +56,9 @@ class AutosavedPlayer():
         if os.path.exists(filename):
             return(load(filename))
         print("Welcome to idlegame, the pip & play Python game!")
-        print("idlegame emulates a zsh command line to play. Get started: `man idlegame` / `man commands`")
-        print("© 2024 Ben Boonstra MIT License.")
+        print("Your goal is to create an unstoppable army of Nanobots by using them to gather resources and defend your filetree.")
+        print("idlegame emulates a zsh command line to play. Get started with one of these commands: `man` / `idlegame`")
+        print("© 2024 Ben Boonstra | MIT License.")
         return {}
 
     def save(self, filename: str = config.save_file) -> None:

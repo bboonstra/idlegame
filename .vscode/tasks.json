@@ -4,25 +4,21 @@
         {
             "label": "Run idlegame",
             "type": "shell",
-            "command": "python3",
-            "args": [
-                "run.py"
-            ],
+            "command": "python3 idlegame/main.py",  // Adjust the path to your main entry point
+            "isBackground": true,   // Treat it as a background task
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": []
-        },
-        {
-            "label": "Test idlegame",
-            "type": "shell",
-            "command": "python3 -m unittest discover -s tests",
-            "group": {
-                "kind": "test",
-                "isDefault": false
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true  // Clears the terminal before starting the task
             },
-            "problemMatcher": []
+            "problemMatcher": [],
         }
     ]
 }

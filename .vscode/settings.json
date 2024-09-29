@@ -1,0 +1,10 @@
+{
+    "python.testing.unittestArgs": [
+        "-v",                // Verbose output
+        "-s", "./tests",      // Specify the test folder
+        "-p", "*test*.py"     // Match test files like test_*.py or *_test.py
+    ],
+    "python.testing.pytestEnabled": false,  // Disable pytest since you're using unittest
+    "python.testing.unittestEnabled": true,  // Enable unittest
+    "python.testing.autoTestDiscoverOnSaveEnabled": true  // Auto-discover tests on save
+}

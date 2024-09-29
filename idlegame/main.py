@@ -187,7 +187,7 @@ class CommandLineInterface(cmd.Cmd):
         else:
             similar_commands = difflib.get_close_matches(command, self.commands.keys())
             if similar_commands:
-                print(f"Invalid command. Did you mean: {', '.join(similar_commands)}?")
+                print(f"Invalid command. Did you mean {' or '.join(similar_commands)}?")
             else:
                 print("Invalid command. Try 'man commands'!")
 
