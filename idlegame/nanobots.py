@@ -103,7 +103,7 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
     if not bot_name:
         bot_name = input("Enter a name for your nanobot: ")
     
-    if len(bot_name) > 15 or any(bot.name == bot_name for bot in player.nanos):
+    if len(bot_name) > 15 or any(bot.name == bot_name for bot in player.nanobots):
         print("Invalid name. Names must be unique and less than 16 characters long.")
         return
     
@@ -120,9 +120,9 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
     # Join the lines into a single string
     nano_logic = '\n'.join(nano_logic_lines)
 
-    # Create a new Nanobot instance and add it to the player's nanos list
+    # Create a new Nanobot instance and add it to the player's nanobots list
     new_nanobot = Nanobot(name=bot_name, logic=nano_logic.strip(), type=nanobot_type)
-    player.nanos.append(new_nanobot)
+    player.nanobots.append(new_nanobot)
     player.nano_cores['normal'] -= 1  # Deduct a nano core for creating a new nanobot
     if bot_type:
         player.nano_cores[bot_type.lower()] -= 1  # Deduct a specialized core if applicable
@@ -145,7 +145,7 @@ def handle_remove(player: AutosavedPlayer, *args, **kwargs) -> None:
     bot_name = args[0]  # Get the bot name from the arguments
     
     # Find the nanobot by name
-    nanobot_to_destroy = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot_to_destroy = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot_to_destroy is None:
         print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
@@ -164,7 +164,7 @@ def handle_remove(player: AutosavedPlayer, *args, **kwargs) -> None:
         player.nano_cores[core_type] += 1  # Reclaiming the typed core if applicable
 
     # Remove the nanobot from the list
-    player.nanos.remove(nanobot_to_destroy)
+    player.nanobots.remove(nanobot_to_destroy)
     player.save()  # Save changes to the player's data
 
     # Print the appropriate message based on nanobot type
@@ -180,7 +180,7 @@ def handle_list(player: AutosavedPlayer, *args, **kwargs) -> None:
         ls
     """
     
-    if not player.nanos:
+    if not player.nanobots:
         print("You have no nanobots.")
         return
 
@@ -189,7 +189,7 @@ def handle_list(player: AutosavedPlayer, *args, **kwargs) -> None:
     print("-" * 100)
 
     # Loop through each nanobot and display relevant details
-    for bot in player.nanos:
+    for bot in player.nanobots:
         idle_action = bot.idle_action or "None"
         current_action = bot.get_current_action() or "None"
         event_actions = list(bot.event_actions.items())
@@ -237,7 +237,7 @@ def handle_fsck(player: AutosavedPlayer, *args, **kwargs) -> None:
     bot_name = args[0]  # Get the bot name from the arguments
     
     # Find the nanobot by name
-    nanobot_to_fsck = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot_to_fsck = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot_to_fsck is None:
         print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
@@ -294,7 +294,7 @@ def handle_truncate(player: AutosavedPlayer, *args, **kwargs) -> None:
     bot_name = args[0]  # Get the bot name from the arguments
 
     # Find the nanobot by name
-    nanobot_to_truncate = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot_to_truncate = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot_to_truncate is None:
         print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
@@ -326,7 +326,7 @@ def handle_echo(player: AutosavedPlayer, *args, **kwargs) -> None:
     bot_name = args[2]  # The bot name
 
     # Find the nanobot by name
-    nanobot_to_echo = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot_to_echo = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot_to_echo is None:
         print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
@@ -357,7 +357,7 @@ def handle_cat(player: AutosavedPlayer, *args, **kwargs) -> None:
         return
 
     bot_name = args[0]
-    nanobot = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot is None:
         print(f"No nanobot found with the name '{bot_name}'.")
@@ -376,7 +376,7 @@ def handle_head(player: AutosavedPlayer, *args, **kwargs) -> None:
         return
 
     bot_name = args[0]
-    nanobot = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot is None:
         print(f"No nanobot found with the name '{bot_name}'.")
@@ -398,7 +398,7 @@ def handle_tail(player: AutosavedPlayer, *args, **kwargs) -> None:
         return
 
     bot_name = args[0]
-    nanobot = next((bot for bot in player.nanos if bot.name == bot_name), None)
+    nanobot = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot is None:
         print(f"No nanobot found with the name '{bot_name}'.")

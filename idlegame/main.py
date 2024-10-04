@@ -2,7 +2,7 @@ import difflib
 import cmd
 import shlex
 from idlegame.data import handle_login, handle_reboot
-from idlegame.idle import handle_claim
+from idlegame.idle import handle_claim, handle_crontab
 from idlegame.profile import handle_profile
 from idlegame.nanobots import handle_nano, handle_list, handle_remove, handle_fsck, handle_echo, handle_truncate
 from idlegame.nanobots import handle_cat, handle_head, handle_tail
@@ -23,6 +23,7 @@ class CommandLineInterface(cmd.Cmd):
             "idlegame": self.handle_info,
             "alias": self.handle_alias,
             "whoami": handle_profile,
+            "crontab": handle_crontab,
             "nano": handle_nano,
             "rm": handle_remove,
             "ls": handle_list,
@@ -60,7 +61,7 @@ class CommandLineInterface(cmd.Cmd):
         # Print complexity summary
         print(f"System complexity: {player.system_complexity}")
         print("Nanobot contributions to complexity:")
-        for bot in player.nanos:
+        for bot in player.nanobots:
             print(f" - {bot.name}: {bot.complexity} complexity")
         print(f"Aliases contribution: {len(player.aliases) / 10:.1f} complexity")
 

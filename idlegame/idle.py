@@ -55,7 +55,7 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
         # Collect all defenders for this chunk
         defending_bots = []
 
-        for bot in player.nanos:
+        for bot in player.nanobots:
             # Bot does nothing if broken
             if not bot.functional:
                 continue
@@ -96,3 +96,25 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
             print(f"{nanobots_broken} of your bots was broken during the invasions.")
     
     install_package(player, 'apt')
+
+def handle_crontab(player, *args, **kwargs):
+    """See what commands are ready to be used.
+
+    Usage:
+        crontab
+    """
+    cooldown_period = timedelta(minutes=10)
+    now = datetime.now(timezone.utc)
+
+    if player.last_trivia_timestamp is not None:
+        last_attempt_time = player.last_trivia_timestamp
+        if now < last_attempt_time + cooldown_period:
+            remaining_time = (last_attempt_time + cooldown_period) - now
+            print(f"Your next trivia will be available in {remaining_time.seconds // 60} minutes and {remaining_time.seconds % 60} seconds!")
+            return
+        else:
+            print("TRIVIA is ready!")
+
+    time_offline = now - player.last_claim_timestamp
+    total_seconds_offline = int(time_offline.total_seconds())
+    print(f"Uptime: {total_seconds_offline.seconds // 60}min {total_seconds_offline.seconds % 60}sec")

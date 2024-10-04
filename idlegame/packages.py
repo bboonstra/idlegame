@@ -1,3 +1,10 @@
+import random
+import subprocess
+from datetime import datetime, timezone, timedelta
+from colorama import Fore, Style, init
+import re
+init()
+
 # Define package requirements
 package_requirements = {
     'apt': {},
@@ -40,7 +47,7 @@ def install_package(player, package_name):
         return
 
     for required_bot in requirements.get('required_bots', []):
-        if not any(bot.name == required_bot for bot in player.nanos):
+        if not any(bot.name == required_bot for bot in player.nanobots):
             print(f"You need a nanobot named '{required_bot}' to install {package_name}.")
             return
 
@@ -95,13 +102,115 @@ def handle_apt(player, *args, **kwargs):
     elif selection:
         print(f"{selection} is not a valid package.")
 
+
+def get_random_zsh_command():
+    """Pull a random Zsh command from the system."""
+    try:
+        # Get a list of available commands using compgen in Zsh
+        result = subprocess.run(["zsh", "-ic", "compgen -c"], capture_output=True, text=True)
+        commands = result.stdout.splitlines()
+        if commands:
+            # Randomly select a command from the list
+            return random.choice(list(filter(lambda cmd: not cmd.startswith('_'), commands)))
+        else:
+            print("No commands found.")
+            return None
+    except subprocess.CalledProcessError:
+        print("Error fetching Zsh commands.")
+        return None
+
+def get_command_description(command):
+    """Get a description of a command using 'whatis' or 'man'."""
+    try:
+        # Use 'whatis' to get a brief description of the command
+        result = subprocess.run(["whatis", command], capture_output=True, text=True)
+        description = result.stdout.strip()
+
+        if description:
+            description = description.splitlines()[0].split('-')[1].strip()
+            # Replace the command name with question marks equal to the command's length
+            question_marks = "[???]"
+            # Replace variations of the command name (add more variations as needed)
+            variations = [command, command.lower(), command.upper()]
+            for variation in variations:
+                # \b denotes a word boundary, ensuring we match whole words only
+                description = re.sub(r'\b' + re.escape(variation) + r'\b', question_marks, description)
+
+            if len(description) > 50:
+                return description[:50] + "..."
+            return description
+        else:
+            return f"No description available for {command}."
+    except subprocess.CalledProcessError:
+        return f"Error fetching description for {command}."
+
+
 def handle_trivia(player, *args, **kwargs):
-    """Lean about zsh, bash, and sh. Get a bonus once per day!"""
-    if not is_package_installed(player, 'trivia'):
-        print("trivia has not been installed!")
+    """Learn about zsh, bash, and sh. Get a bonus once per day!"""
+
+    # Cooldown settings
+    cooldown_period = timedelta(minutes=10)
+    current_time = datetime.now(timezone.utc)
+
+    # Check if the cooldown has passed
+    if player.last_trivia_timestamp is not None:
+        last_attempt_time = player.last_trivia_timestamp
+        if current_time < last_attempt_time + cooldown_period:
+            remaining_time = (last_attempt_time + cooldown_period) - current_time
+            print(f"Your next trivia will be available in {remaining_time.seconds // 60} minutes and {remaining_time.seconds % 60} seconds!")
+            return
+
+    attempts = 5  # Limit the number of rerolls to prevent an infinite loop
+    command = None
+    description = None
+    
+    print("Loading trivia from your system...")
+    # Reroll the command if the description says "No description available"
+    for _ in range(attempts):
+        # Get a random Zsh command
+        command = get_random_zsh_command()
+        if not command:
+            print("Could not fetch a random command.")
+            return
+        
+        # Get the description for the random command
+        description = get_command_description(command)
+        
+        # Check if description is valid
+        if "No description available" not in description:
+            break
+        else:
+            print(f"Rerolling... No description available for {command}.")
+    else:
+        print("Failed to find a valid command in your ZSH system with a description.")
         return
 
-    print("Coming soon...")
+    print(f"What is the name of this command?\n{Fore.GREEN}>> {description} <<{Style.RESET_ALL}")
+
+    # Ask the player for the command
+    user_input = input("% ").strip()
+
+    # Check if the user's answer is correct
+    if user_input == command:
+        print("That's correct!")
+        gold_award = max(round(player.gold * (random.random() / 10)), 100)
+        player.gold += gold_award
+        print(f"You have been awarded {gold_award} gold!")
+        
+        # Check for daily bonus
+        if player.last_trivia_bonus_timestamp is None or current_time >= player.last_trivia_bonus_timestamp + timedelta(days=1):
+            bonus_gold = gold_award * 10  # 10x bonus
+            player.gold += bonus_gold
+            player.last_trivia_bonus_timestamp = current_time
+            print(f"Daily bonus awarded! You receive an additional {bonus_gold} gold!")
+        else:
+            print("You have already claimed your daily bonus.")
+    else:
+        print(f"Nope! The correct answer was: {command}")
+
+    player.last_trivia_timestamp = current_time
+
+
 
 def handle_yum(player, *args, **kwargs):
     """Buy things from the shop."""

@@ -33,10 +33,12 @@ class AutosavedPlayer():
         'tree_health': 100,
         'gold': 0,
         'last_claim_timestamp': None,
+        'last_trivia_timestamp': None,
+        'last_trivia_bonus_timestamp': None,
         'settings': {},
         'aliases': {},
         'nano_cores': {'normal': 0, 'miner': 0, 'fighter': 0, 'super': 0, 'warper': 0},
-        'nanos': [],
+        'nanobots': [],
         'system_complexity': 0.0,
         'warps': 0,
         'packages': [],
@@ -84,12 +86,12 @@ class AutosavedPlayer():
         for attr, default_value in self.DEFAULT_ATTRIBUTES.copy().items():
             if attr not in self._data:
                 self._data[attr] = default_value
-        for bot in self.nanos:
+        for bot in self.nanobots:
             bot.update_complexity()
         self.update_complexity()
 
     def update_complexity(self) -> None:
-        self.system_complexity = sum(bot.complexity for bot in self.nanos) + (len(self.aliases) / 10)
+        self.system_complexity = sum(bot.complexity for bot in self.nanobots) + (len(self.aliases) / 10)
 
 def handle_login() -> AutosavedPlayer:
     """Automatically login as the current system user."""

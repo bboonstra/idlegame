@@ -110,7 +110,7 @@ class TestComplexity(unittest.TestCase):
         """Test that the complexity of the system updates when a bot is added."""
         self.assertEqual(self.player.system_complexity, 0.0, "System complexity should be 0 by default.")
 
-        self.player.nanos.append(Nanobot("testbot", "1234567890", Nanotype.NORMAL))
+        self.player.nanobots.append(Nanobot("testbot", "1234567890", Nanotype.NORMAL))
         self.player.update_complexity()  # Call a method to update complexity after adding a bot
 
         self.assertEqual(self.player.system_complexity, 1.0, "System complexity should be 1 with a bot with len(10) of code.")
