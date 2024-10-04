@@ -35,6 +35,7 @@ class AutosavedPlayer():
         'last_claim_timestamp': None,
         'last_trivia_timestamp': None,
         'last_trivia_bonus_timestamp': None,
+        'shop_timestamp': None,
         'settings': {},
         'aliases': {},
         'nano_cores': {'normal': 0, 'miner': 0, 'fighter': 0, 'super': 0, 'warper': 0},
@@ -42,7 +43,7 @@ class AutosavedPlayer():
         'system_complexity': 0.0,
         'warps': 0,
         'packages': [],
-        'shopdata': {},
+        'shop_data': {},
     }
 
     def __init__(self, override_directory=None) -> None:

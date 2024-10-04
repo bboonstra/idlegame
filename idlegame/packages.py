@@ -3,6 +3,7 @@ import subprocess
 from datetime import datetime, timezone, timedelta
 from colorama import Fore, Style, init
 import re
+from idlegame import config
 init()
 
 # Define package requirements
@@ -210,13 +211,18 @@ def handle_trivia(player, *args, **kwargs):
 
     player.last_trivia_timestamp = current_time
 
-
+def reroll_shop(player):
+    player.shop_data = {}
+    player.shop_timestamp = datetime.now(timezone.UTC)
 
 def handle_yum(player, *args, **kwargs):
     """Buy things from the shop."""
     if not is_package_installed(player, 'yum'):
         print("yum has not been installed!")
         return
+    if not player.shop_data or player.shop_timestamp - datetime.now(timezone.UTC) / 600 < config.shop_reroll_hours or not player.shop_timestamp:
+        # set up the shop
+        reroll_shop(player)
 
     print("Coming soon...")
 
