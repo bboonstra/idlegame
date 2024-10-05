@@ -58,7 +58,7 @@ def simulate_defense(player: AutosavedPlayer, defending_bots: List[Nanobot]) -> 
     if invasion_strength > 0 and total_defense_power >= invasion_strength:
         core_rewards = determine_core_rewards(invasion_strength)
         for core_type, amount in core_rewards.items():
-            player.nano_cores[core_type] += amount
+            player.nano_cores[core_type] = player.nano_cores.get(core_type, 0) + amount
             if amount > 0:
                 print(f"Your successful defense earned you {amount} {core_type} core(s)!")
 
