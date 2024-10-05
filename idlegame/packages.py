@@ -297,9 +297,8 @@ def handle_tt(player, *args, **kwargs):
     effects = [
         ("Your nanobots have evolved!", lambda: increase_nanobot_efficiency(player)),
         ("You've discovered ancient gold!", lambda: add_gold(player, random.randint(1000, 5000))),
-        ("The timeline has shifted, resetting your uptime!", lambda: reset_uptime(player)),
-        ("You've glimpsed future technology!", lambda: unlock_random_package(player)),
-        ("The fabric of time is damaged, reducing your system complexity!", lambda: reduce_system_complexity(player))
+        ("The timeline has shifted, increasing your uptime!", lambda: reset_uptime(player)),
+        ("The fabric of time is warped, reducing your system complexity!", lambda: reduce_system_complexity(player))
     ]
 
     # Apply 2-3 random effects
@@ -323,18 +322,8 @@ def add_gold(player, amount):
     print(f"Added {amount} gold to your account!")
 
 def reset_uptime(player):
-    player.last_claim_timestamp = datetime.now(timezone.utc)
-    print("Your uptime has been reset to now!")
-
-def unlock_random_package(player):
-    available_packages = [pkg for pkg in package_requirements.keys() if pkg not in player.packages]
-    if available_packages:
-        new_package = random.choice(available_packages)
-        player.packages.append(new_package)
-        print(f"Unlocked the {new_package} package!")
-    else:
-        print("No new packages to unlock. Have some gold instead!")
-        add_gold(player, 1000)
+    player.last_claim_timestamp += timedelta(hours=6)
+    print("Your uptime has been warped by 6 hours!")
 
 def reduce_system_complexity(player):    
     reduction = random.randint(5, 10)  # Flat reduction between 5 and 10

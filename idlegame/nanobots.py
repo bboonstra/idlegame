@@ -26,7 +26,7 @@ class Nanobot:
         self.warp_chance = 0
         self.research_rate = 0
         self.scan_success_rate = 0.01
-        self.connection_skill = 0.1
+        self.connection_rate = 0.1
         self.learn_rate = 0.2
         
         if self.type == Nanotype.MINER:
