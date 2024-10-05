@@ -33,6 +33,7 @@ class AutosavedPlayer():
     DEFAULT_ATTRIBUTES: Dict[str, Any] = {
         'tree_health': 100,
         'gold': 0,
+        'time_crystals': 0,
         'last_claim_timestamp': None,
         'last_trivia_timestamp': None,
         'last_trivia_bonus_timestamp': None,
@@ -42,9 +43,14 @@ class AutosavedPlayer():
         'nano_cores': {'normal': 0, 'miner': 0, 'fighter': 0, 'super': 0, 'warper': 0},
         'nanobots': [],
         'system_complexity': 0.0,
+        'complexity_warp': 0,
         'warps': 0,
         'packages': [],
         'shop_data': {},
+        'research_points': 0,
+        'connections': [],
+        'scan_attempts': 0,
+        'scan_successes': 0,
     }
 
     def __init__(self, override_directory: str | None = None) -> None:
@@ -92,7 +98,7 @@ class AutosavedPlayer():
         self.update_complexity()
 
     def update_complexity(self) -> None:
-        self.system_complexity = sum(bot.complexity for bot in self.nanobots) + (len(self.aliases) / 10)
+        self.system_complexity = round(sum(bot.complexity for bot in self.nanobots) + (len(self.aliases) / 10) - self.complexity_warp)
 
 def handle_login() -> AutosavedPlayer:
     """Automatically login as the current system user."""

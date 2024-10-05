@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 from colorama import Fore, Style, init
 import re
 from idlegame import config
+import time
 init()
 
 # Define package requirements
@@ -248,7 +249,19 @@ def handle_yum(player, *args, **kwargs):
             if player.gold >= item_data['price_gold']:
                 player.gold -= item_data['price_gold']
                 print(f"You bought {original_key} for {item_data['price_gold']} gold!")
-                # Here you would add logic to give the player the item they bought
+                
+                # Handle the reward
+                reward = item_data['reward']
+                if reward.endswith('nanocore'):
+                    core_type = reward.split()[0].lower()
+                    player.nano_cores[core_type] += 1
+                    print(f"You received 1 {core_type} nanocore!")
+                elif reward == 'time_crystal':
+                    player.time_crystals += 1
+                    print("You received 1 Time Crystal!")
+                else:
+                    print(f"You received: {reward}")
+
                 del player.shop_data[original_key]  # Remove the item from the shop after purchase
                 player.save()  # Save the player's updated state
                 break
@@ -263,4 +276,69 @@ def handle_tt(player, *args, **kwargs):
         print("timetravel has not been installed!")
         return
 
-    print("Coming soon...")
+    if player.time_crystals < 1:
+        print("You need at least one Time Crystal to time travel!")
+        return
+
+    print("Preparing for time travel...")
+    time.sleep(1)
+    print("3...")
+    time.sleep(1)
+    print("2...")
+    time.sleep(1)
+    print("1...")
+    time.sleep(1)
+    print("Initiating time travel!")
+
+    # Consume a Time Crystal
+    player.time_crystals -= 1
+
+    # Generate random time travel effects
+    effects = [
+        ("Your nanobots have evolved!", lambda: increase_nanobot_efficiency(player)),
+        ("You've discovered ancient gold!", lambda: add_gold(player, random.randint(1000, 5000))),
+        ("The timeline has shifted, resetting your uptime!", lambda: reset_uptime(player)),
+        ("You've glimpsed future technology!", lambda: unlock_random_package(player)),
+        ("The fabric of time is damaged, reducing your system complexity!", lambda: reduce_system_complexity(player))
+    ]
+
+    # Apply 2-3 random effects
+    num_effects = random.randint(2, 3)
+    chosen_effects = random.sample(effects, num_effects)
+
+    for effect_message, effect_function in chosen_effects:
+        print(effect_message)
+        effect_function()
+
+    player.save()
+    print("Time travel complete!")
+
+def increase_nanobot_efficiency(player):
+    for bot in player.nanobots:
+        bot.defense_rating *= 1.2
+    print("All nanobots' defense ratings have been increased by 20%!")
+
+def add_gold(player, amount):
+    player.gold += amount
+    print(f"Added {amount} gold to your account!")
+
+def reset_uptime(player):
+    player.last_claim_timestamp = datetime.now(timezone.utc)
+    print("Your uptime has been reset to now!")
+
+def unlock_random_package(player):
+    available_packages = [pkg for pkg in package_requirements.keys() if pkg not in player.packages]
+    if available_packages:
+        new_package = random.choice(available_packages)
+        player.packages.append(new_package)
+        print(f"Unlocked the {new_package} package!")
+    else:
+        print("No new packages to unlock. Have some gold instead!")
+        add_gold(player, 1000)
+
+def reduce_system_complexity(player):    
+    reduction = random.randint(5, 10)  # Flat reduction between 5 and 10
+    player.complexity_warp += reduction
+    player.update_complexity()  # Ensure the complexity is updated
+    print(f"Your system complexity has been reduced by {reduction}!")
+    print(f"Total complexity warped: {player.complexity_warped}")

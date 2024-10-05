@@ -40,6 +40,9 @@ class CommandLineInterface(cmd.Cmd):
             "trivia": packages.handle_trivia,
             "timetravel": packages.handle_tt,
             "reboot": handle_reboot,
+            "ssh": self.handle_ssh,
+            "nmap": self.handle_nmap,
+            "research": self.handle_research,
         }
 
     def handle_top(self, player, *args, **kwargs):
@@ -67,7 +70,6 @@ class CommandLineInterface(cmd.Cmd):
 
         # Print safety level
         print(f"Safety level: {safety}% safe")
-
 
     def handle_info(self, player, *args, **kwargs):
         """Use this command to learn about idlegame"""
@@ -107,7 +109,7 @@ class CommandLineInterface(cmd.Cmd):
         """Show help for commands."""
         if args and args[0]:
             command = args[0]
-            if command in self.commands and command not in ['sudo']:  # Use the commands dictionary to check
+            if command in self.commands and command not in ['sudo']:
                 print(self.commands[command].__doc__)
             else:
                 print(f"No manual entry for {command}")
@@ -117,6 +119,33 @@ class CommandLineInterface(cmd.Cmd):
                 if cmd_name not in ['sudo']:
                     if cmd_name in player.packages or cmd_name not in packages.package_requirements.keys():
                         print(f"  {c.Style.BRIGHT}{c.Fore.YELLOW}{cmd_name}{c.Style.RESET_ALL} - {self.commands[cmd_name].__doc__.strip()}\n")
+
+    def handle_nmap(self, player, *args, **kwargs):
+        """Scan for vulnerabilities."""
+        print(f"Total scan attempts: {player.scan_attempts}")
+        print(f"Successful scans: {player.scan_successes}")
+        if player.scan_attempts > 0:
+            print(f"Success rate: {player.scan_successes / player.scan_attempts:.2%}")
+        else:
+            print("Make a nanobot `hack` when idle to scan for vulnerabilities!")
+
+
+    def handle_ssh(self, player, *args, **kwargs):
+        """Manage connections with other systems."""
+        if not player.connections:
+            print("You have no active connections.")
+            print("Make a nanobot `connect` when idle to scan for vulnerabilities!")
+            print("Diplomatic connections are made by `connect`ing with idle nanobots. Connections help you defend against invasions and gain gold through trade.")
+        else:
+            print("Your active connections:")
+            for connection in player.connections:
+                print(f"- {connection}")
+
+    def handle_research(self, player, *args, **kwargs):
+        """View research points and available upgrades."""
+        print(f"You have {player.research_points} research points.")
+        # TODO: Implement research upgrades
+
 
     def handle_exit(self, player, *args, **kwargs):
         """Exit the game."""
@@ -191,11 +220,11 @@ class CommandLineInterface(cmd.Cmd):
             if similar_commands:
                 print(f"Invalid command. Did you mean {' or '.join(similar_commands)}?")
             else:
-                print("Invalid command. Try 'man commands'!")
+                print("Invalid command. Try 'man'!")
+
 
 def main():
     player = handle_login()
-    handle_claim(player, automatic=True)
     cli = CommandLineInterface(player)
     cli.prompt = f"{c.Fore.BLUE}{player.username}@idlegame{c.Style.RESET_ALL} {c.Style.DIM}%{c.Style.RESET_ALL} "
     cli.cmdloop()

@@ -47,6 +47,10 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     gold_gathered = 0
     invasions_total = 0
     nanobots_broken = 0
+    skills_learned = 0
+    scan_attempts = 0
+    scan_successes = 0
+    connection_attempts = 0
 
     # Simulate each 10-minute chunk
     for _ in range(num_chunks):
@@ -68,9 +72,21 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
             else:
                 # Otherwise do idle actions
                 if bot.idle_action in ['mine', 'mining', 'miner']:
-                    gold_gathered += config.base_mining_rate  # mine resources for this chunk
-                if bot.idle_action in ['defend', 'defense', 'defending']:
+                    gold_gathered += config.base_mining_rate * bot.mining_rate  # Use the bot's mining rate
+                elif bot.idle_action in ['defend', 'defense', 'defending']:
                     defending_bots.append(bot)
+                elif bot.idle_action == 'learn':
+                    skills_learned += bot.learn_rate
+                elif bot.idle_action == 'hack':
+                    scan_attempts += 1
+                    if random.random() < bot.scan_success_rate:
+                        scan_successes += 1
+                        gold_gained = random.randint(10, 100)
+                        gold_gathered += gold_gained
+                elif bot.idle_action == 'connect':
+                    connection_attempts += 1
+                    if random.random() < bot.connection_rate:
+                        player.connections.append(f"system_{random.randint(1000, 9999)}")
 
         # Simulate defense if an invasion occurred
         if invasion_occurred:
@@ -78,7 +94,12 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
             nanobots_broken += simulate_defense(player, defending_bots)
             # TODO logic if you lose
 
-    
+
+
+    player.research_points += skills_learned
+    player.scan_attempts += scan_attempts
+    player.scan_successes += scan_successes
+
     # Add gathered gold to player
     player.gold += gold_gathered
 
@@ -91,9 +112,13 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     if not silent_mode:
         print(f"You were offline for {total_seconds_offline // 60} minutes.")
         print(f"You mined {gold_gathered} gold!")
+        print(f"You learned {skills_learned} new zsh skills!")
+        print(f"Your hackers attempted {scan_attempts} scans, succeeding {scan_successes} times.")
+        print(f"Your diplomats attempted to form {connection_attempts} connections.")
+        print(f"You now have {len(player.connections)} active connections.")
         print(f"{invasions_total} invasions occurred during your offline time.")
         if nanobots_broken > 0:
-            print(f"{nanobots_broken} of your bots was broken during the invasions.")
+            print(f"{nanobots_broken} of your bots were broken during the invasions.")
     
     install_package(player, 'apt')
 

@@ -10,6 +10,9 @@ class Nanotype(Enum):
     FIGHTER = "fighter"
     SUPER = "super"
     WARPER = "warper"
+    RESEARCHER = "researcher"
+    HACKER = "hacker"
+    DIPLOMAT = "diplomat"
 
 class Nanobot:
     def __init__(self, name: str, logic: str, type: Nanotype):
@@ -18,9 +21,30 @@ class Nanobot:
         self.event_actions = {}
         self.type = type
         self.defense_rating = 1
+        self.mining_rate = 1
         self.functional = True
-        if self.type == Nanotype.FIGHTER:
-            self.defense_rating += 1
+        self.warp_chance = 0
+        self.research_rate = 0
+        self.scan_success_rate = 0.01
+        self.connection_skill = 0.1
+        self.learn_rate = 0.2
+        
+        if self.type == Nanotype.MINER:
+            self.mining_rate = 1.3
+        elif self.type == Nanotype.FIGHTER:
+            self.defense_rating = 1.3
+        elif self.type == Nanotype.SUPER:
+            self.mining_rate = 1.3
+            self.defense_rating = 1.3
+        elif self.type == Nanotype.WARPER:
+            self.warp_chance = 0.1
+        elif self.type == Nanotype.RESEARCHER:
+            self.learn_rate = 0.5
+        elif self.type == Nanotype.HACKER:
+            self.scan_success_rate = 0.2
+        elif self.type == Nanotype.DIPLOMAT:
+            self.connection_rate = 0.3
+        
         self.logic = logic
         self.complexity = 0
         self.update_complexity()
