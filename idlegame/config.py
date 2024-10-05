@@ -32,3 +32,10 @@ def handle_sudo(player, *args, **kwargs):
         # Subtract the specified number of seconds from the last claim timestamp
         player.gold += int(gold)
         print(f"Added {gold} gold to your account")
+
+    cores = kwargs.get('add-normal-nanocores', 0)
+    if not cores:
+        cores = kwargs.get('anc', 0)
+    if cores:
+        player.nano_cores['normal'] += int(cores)
+        print(f"Added {cores} normal cores to your account")

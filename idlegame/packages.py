@@ -213,18 +213,49 @@ def handle_trivia(player, *args, **kwargs):
 
 def reroll_shop(player):
     player.shop_data = {}
-    player.shop_timestamp = datetime.now(timezone.UTC)
+    player.shop_timestamp = datetime.now(timezone.utc)
+    available_items = list(config.shop_items.items())
+    selected_items = random.sample(available_items, min(3, len(available_items)))
+    for item_name, item_data in selected_items:
+        player.shop_data[item_name] = item_data
 
 def handle_yum(player, *args, **kwargs):
     """Buy things from the shop."""
     if not is_package_installed(player, 'yum'):
         print("yum has not been installed!")
         return
-    if not player.shop_data or player.shop_timestamp - datetime.now(timezone.UTC) / 600 < config.shop_reroll_hours or not player.shop_timestamp:
+    if not player.shop_data or (datetime.now(timezone.utc) - player.shop_timestamp).total_seconds() / 3600 >= config.shop_cooldown_hours:
         # set up the shop
         reroll_shop(player)
 
-    print("Coming soon...")
+    print("Available items:")
+    for item_name, item_data in player.shop_data.items():
+        print(f"{item_name}: {item_data['description']} - {item_data['price_gold']} gold")
+
+    while True:
+        item_to_buy = input("Enter the name of the item you want to buy (or 'cancel' to exit): ").strip().lower()
+        
+        if item_to_buy == 'cancel':
+            print("Purchase cancelled.")
+            return
+
+        # Create a dictionary with lowercase keys for comparison
+        lowercase_shop_keys = {k.strip().lower(): k for k in player.shop_data.keys()}
+
+        if item_to_buy in lowercase_shop_keys:
+            original_key = lowercase_shop_keys[item_to_buy]
+            item_data = player.shop_data[original_key]
+            if player.gold >= item_data['price_gold']:
+                player.gold -= item_data['price_gold']
+                print(f"You bought {original_key} for {item_data['price_gold']} gold!")
+                # Here you would add logic to give the player the item they bought
+                del player.shop_data[original_key]  # Remove the item from the shop after purchase
+                player.save()  # Save the player's updated state
+                break
+            else:
+                print(f"You don't have enough gold to buy this item. You need {item_data['price_gold']} gold.")
+        else:
+            print("Invalid item name. Please try again.")
 
 def handle_tt(player, *args, **kwargs):
     """TIME TRAVEL!!!1"""
