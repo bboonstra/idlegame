@@ -6,5 +6,7 @@
     ],
     "python.testing.pytestEnabled": false,  // Disable pytest since you're using unittest
     "python.testing.unittestEnabled": true,  // Enable unittest
-    "python.testing.autoTestDiscoverOnSaveEnabled": true  // Auto-discover tests on save
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true // Auto-discover tests on save
 }
