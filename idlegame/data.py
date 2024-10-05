@@ -98,7 +98,7 @@ class AutosavedPlayer():
         self.update_complexity()
 
     def update_complexity(self) -> None:
-        self.system_complexity = round(sum(bot.complexity for bot in self.nanobots) + (len(self.aliases) / 10) - self.complexity_warp)
+        self.system_complexity = sum(bot.complexity for bot in self.nanobots) + (len(self.aliases) / 10) - self.complexity_warp
 
 def handle_login() -> AutosavedPlayer:
     """Automatically login as the current system user."""
