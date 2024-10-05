@@ -76,8 +76,8 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
 
         """
     
-    bot_type = kwargs.get('type', None)
-    bot_name = kwargs.get('name', None)
+    bot_type = kwargs.get('type')
+    bot_name = kwargs.get('name')
     auto_accept = kwargs.get('y', False) is not False
 
     if player.nano_cores.get('normal', 0) < 1:
@@ -88,45 +88,31 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
         print(f"You need at least 1 {bot_type.lower()} core to create a specialized nanobot.")
         return
     
-    # Determine the nanobot type
-    if bot_type:
-        nanobot_type = Nanotype[bot_type.upper()]
-    else:
-        nanobot_type = Nanotype.NORMAL
+    nanobot_type = Nanotype[bot_type.upper()] if bot_type else Nanotype.NORMAL
 
-    if not auto_accept:
-        create_nano = input(f"Do you want to create a new {nanobot_type.name.lower()} nanobot? (yes/no): ").strip().lower()
-        if create_nano not in ['yes', 'y']:
-            print("No new nanobot created.")
-            return
+    if not auto_accept and input(f"Do you want to create a new {nanobot_type.name.lower()} nanobot? (yes/no): ").strip().lower() not in ['yes', 'y']:
+        print("No new nanobot created.")
+        return
 
     if not bot_name:
         bot_name = input("Enter a name for your nanobot: ")
     
-    if len(bot_name) > 15 or any(bot.name == bot_name for bot in player.nanobots):
-        print("Invalid name. Names must be unique and less than 16 characters long.")
+    if len(bot_name) > 15:
+        print("Error: Bot name is too long. Please choose a name with 15 characters or fewer.")
+        return
+    if any(bot.name == bot_name for bot in player.nanobots):
+        print("Error: A bot with this name already exists. Please choose a unique name.")
         return
     
-    # Interactive session for nano logic input
     print("Write the logic for your nanobot (type 'done' on a new line to finish):")
-    nano_logic_lines = []
-    
-    while True:
-        line = input()
-        if line.strip().lower() == 'done':
-            break
-        nano_logic_lines.append(line)
+    nano_logic = '\n'.join(iter(input, 'done'))
 
-    # Join the lines into a single string
-    nano_logic = '\n'.join(nano_logic_lines)
-
-    # Create a new Nanobot instance and add it to the player's nanobots list
     new_nanobot = Nanobot(name=bot_name, logic=nano_logic.strip(), type=nanobot_type)
     player.nanobots.append(new_nanobot)
-    player.nano_cores['normal'] -= 1  # Deduct a nano core for creating a new nanobot
+    player.nano_cores['normal'] -= 1
     if bot_type:
-        player.nano_cores[bot_type.lower()] -= 1  # Deduct a specialized core if applicable
-    player.save()  # Save changes to the player's data
+        player.nano_cores[bot_type.lower()] -= 1
+    player.save()
 
     print(f"Nanobot '{bot_name}' created!")
 
