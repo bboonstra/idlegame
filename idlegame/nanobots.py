@@ -68,7 +68,7 @@ class Nanobot:
                 if event_name and action:
                     self.event_actions[event_name] = action
 
-    def get_current_action(self, event: str | None = None) -> str:
+    def get_current_action(self, event = None) -> str:
         """Perform the action based on the current event or idle."""
         if not self.functional:
             return "BROKEN"

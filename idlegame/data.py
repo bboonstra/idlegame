@@ -53,7 +53,7 @@ class AutosavedPlayer():
         'scan_successes': 0,
     }
 
-    def __init__(self, override_directory: str | None = None) -> None:
+    def __init__(self, override_directory = None) -> None:
         self.username = getpass.getuser()  # Automatically use the current system user
         self._data = self.load(override_directory if override_directory else config.save_file)
         self.override_save_dir: str = override_directory or ""
