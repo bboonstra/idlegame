@@ -3,6 +3,7 @@ import pickle
 import getpass
 from . import config
 import logging
+from typing import Any, Dict
 
 def load(filename: str = config.save_file) -> dict:
     """Load data from a pickle file.
@@ -29,7 +30,7 @@ def save(data: dict, filename: str = config.save_file) -> None:
         pickle.dump(data, f)
 
 class AutosavedPlayer():
-    DEFAULT_ATTRIBUTES: dict[str, int, dict] = {
+    DEFAULT_ATTRIBUTES: Dict[str, Any] = {
         'tree_health': 100,
         'gold': 0,
         'last_claim_timestamp': None,
@@ -46,10 +47,10 @@ class AutosavedPlayer():
         'shop_data': {},
     }
 
-    def __init__(self, override_directory=None) -> None:
+    def __init__(self, override_directory: str | None = None) -> None:
         self.username = getpass.getuser()  # Automatically use the current system user
         self._data = self.load(override_directory if override_directory else config.save_file)
-        self.override_save_dir = override_directory if override_directory else False
+        self.override_save_dir: str = override_directory or ""
         self.automigrate()
 
         for key, value in self._data.items():
@@ -67,7 +68,7 @@ class AutosavedPlayer():
     def save(self, filename: str = config.save_file) -> None:
         save(self._data, self.override_save_dir if self.override_save_dir else filename)
 
-    def __getattr__(self, attr: str) -> int:
+    def __getattr__(self, attr: str) -> Any:
         if attr == 'system_complexity':
             self.update_complexity()
             return self._data.get('system_complexity', 0.0)
@@ -75,9 +76,8 @@ class AutosavedPlayer():
             return self._data[attr]
         raise AttributeError(f"{attr} not found")
 
-
-    def __setattr__(self, attr: str, value: int) -> None:
-        if attr in ['username', '_data']:
+    def __setattr__(self, attr: str, value: Any) -> None:
+        if attr in ['username', '_data', 'override_save_dir']:
             super().__setattr__(attr, value)
         else:
             self._data[attr] = value

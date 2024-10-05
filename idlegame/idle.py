@@ -117,4 +117,4 @@ def handle_crontab(player, *args, **kwargs):
 
     time_offline = now - player.last_claim_timestamp
     total_seconds_offline = int(time_offline.total_seconds())
-    print(f"Uptime: {total_seconds_offline.seconds // 60}min {total_seconds_offline.seconds % 60}sec")
+    print(f"Uptime: {total_seconds_offline // 60}min {total_seconds_offline % 60}sec")
