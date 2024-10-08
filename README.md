@@ -66,6 +66,8 @@ The zsh above shows an efficient way to get started. Claim a nano core, and use 
 man
 ```
 
+`man` will tell you anything you need to know! It will list all the commands available to you, or use `man [command name]` to get specifics.
+
 ## Contributing
 
 Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
