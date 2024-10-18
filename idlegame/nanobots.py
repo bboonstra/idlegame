@@ -68,7 +68,7 @@ class Nanobot:
                 if event_name and action:
                     self.event_actions[event_name] = action
 
-    def get_current_action(self, event = None) -> str:
+    def get_current_action(self, event=None) -> str:
         """Perform the action based on the current event or idle."""
         if not self.functional:
             return "BROKEN"
@@ -97,12 +97,11 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
                 on attacking attack
                 on defending defend
                 done
-
-        """
+    """
     
     bot_type = kwargs.get('type')
     bot_name = kwargs.get('name')
-    auto_accept = kwargs.get('y', False) is not False
+    auto_accept = kwargs.get('y', False)
 
     if player.nano_cores.get('normal', 0) < 1:
         print("You need at least 1 nano core to create a new nanobot.")
@@ -211,210 +210,60 @@ def handle_list(player: AutosavedPlayer, *args, **kwargs) -> None:
             print(f"{bot.name:<15}{bot.type.name.capitalize():<10}{idle_action.capitalize():<15}{first_event_text:<30}{current_action:<30}")
         else:
             print(f"{bot.name:<15}{bot.type.name.capitalize():<10}{idle_action.capitalize():<15}{'None':<30}{current_action:<30}")
-        
-        # Print additional event actions (if any) on new lines, aligned with the event actions column
-        for event, action in event_actions[1:]:
-            text = f"On {event}: {action}"
-            print(f"{'':<15}{'':<10}{'':<15}{text:<60}")
-
-    print("-" * 100)
-
-def animated_loading_bar(duration: float) -> None:
-    """Display an animated loading bar for the specified duration."""
-    total_length = 20
-    for i in range(total_length + 1):
-        bar = '#' * i + '-' * (total_length - i)
-        sys.stdout.write(f'\r[{bar}] {i * 100 // total_length}%')
-        sys.stdout.flush()
-        time.sleep(duration / total_length)
-    print()  # Move to the next line after loading is complete
-
-def handle_fsck(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Fix a nanobot using gold.
-
-    Usage:
-        fsck <bot_name> [--quick] [-y]
-    """
-    
-    quick_mode = kwargs.get('quick', False)
-    auto_fix = kwargs.get('y', False)
-
-    # Check if the bot name is provided
-    if len(args) == 0:
-        print("Please provide the name of the nanobot to fsck. Usage: fsck <bot_name>")
-        return
-    
-    bot_name = args[0]  # Get the bot name from the arguments
-    
-    # Find the nanobot by name
-    nanobot_to_fsck = next((bot for bot in player.nanobots if bot.name == bot_name), None)
-
-    if nanobot_to_fsck is None:
-        print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
-        return
-
-    # Check if the nanobot is functional
-    print("Running systems check...")
-    if not quick_mode:
-        animated_loading_bar(3)  # Show loading bar for 3 seconds
-
-    if nanobot_to_fsck.functional:
-        print("Nanobot fully functional!")
-        return
-    
-    print("Nanobot is broken!")
-    
-    # Auto-fix if -y is passed
-    if auto_fix:
-        do_fsck = True
-    else:
-        do_fsck = input(f"Do you want to fix {nanobot_to_fsck.name} for {config.fsck_cost} gold? (yes/no): ").strip().lower() in ['yes', 'y']
-    
-    if do_fsck:
-        if player.gold < config.fsck_cost:
-            print("Not enough gold to fix the nanobot!")
-            return
-        if not quick_mode:
-            animated_loading_bar(3)  # Show loading bar for 3 seconds
-        nanobot_to_fsck.functional = True
-        player.gold -= config.fsck_cost
-        print(f"Fixed {nanobot_to_fsck.name}!")
-    else:
-        print("Aborted fix.")
-    
-    player.save()  # Save changes to the player's data
-
-def handle_truncate(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Truncate the nanobot's logic to the specified length.
-
-    Usage:
-        truncate -s <length> <bot_name>
-    """
-    length = kwargs.get('s')
-    
-    if length is None or len(args) == 0:
-        print("Please provide the length and nanobot name. Usage: truncate -s <length> <bot_name>")
-        return
-    
-    try: 
-        length = int(length)
-    except TypeError:
-        print("Length was not a valid integer! Usage: truncate -s <length> <bot_name>")
-
-    bot_name = args[0]  # Get the bot name from the arguments
-
-    # Find the nanobot by name
-    nanobot_to_truncate = next((bot for bot in player.nanobots if bot.name == bot_name), None)
-
-    if nanobot_to_truncate is None:
-        print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
-        return
-
-    # Truncate the logic string
-    original_logic = nanobot_to_truncate.logic
-    truncated_logic = original_logic[:length]  # Truncate to specified length
-    nanobot_to_truncate.logic = truncated_logic
-    nanobot_to_truncate.parse_logic()  # Call the parse_logic method
-
-    print(f"Truncated {bot_name}'s logic to:\n{truncated_logic}")
-    player.save()  # Save changes to the player's data
 
 def handle_echo(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Echo text to a nanobot's logic.
+    """Echo the current logic of a nanobot.
 
     Usage:
-        echo "idle mine\\non invasion defend" > <bot_name>  # To overwrite
-        echo "\\non invasion defend" >> <bot_name> # To append
+        echo <bot_name>
     """
-    if len(args) < 2:
-        print("Please provide the text and nanobot name. Usage: echo <text> > <bot_name>")
+    
+    if len(args) == 0:
+        print("Please provide the name of the nanobot to echo. Usage: echo <bot_name>")
         return
 
-    text = args[0]  # The text to echo
-    text = text.replace("\\n", "\n")
-    operator = args[1]  # Operator should be '>' or '>>'
-    bot_name = args[2]  # The bot name
-
-    # Find the nanobot by name
+    bot_name = args[0]
     nanobot_to_echo = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
     if nanobot_to_echo is None:
         print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
         return
 
-    # Handle echoing text based on the operator
-    if operator == '>':
-        nanobot_to_echo.logic = text  # Overwrite the logic
-        print(f"{bot_name}'s logic has been set set.")
-    elif operator == '>>':
-        nanobot_to_echo.logic += ' ' + text  # Append to the logic
-        print(f"Logic appended to {bot_name}.")
-    else:
-        print("Invalid operator. Use '>' to overwrite or '>>' to append.")
-        return
+    print(f"Current logic for '{bot_name}':")
+    print(nanobot_to_echo.logic)
 
-    nanobot_to_echo.parse_logic()  # Call the parse_logic method
-    player.save()  # Save changes to the player's data
-
-def handle_cat(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Display the entire logic of the specified nanobot.
+def handle_truncate(player: AutosavedPlayer, *args, **kwargs) -> None:
+    """Truncate the logic of a nanobot to a specified length.
 
     Usage:
-        cat <bot_name>
+        truncate <bot_name> <length>
     """
-    if len(args) == 0:
-        print("Please provide the name of the nanobot. Usage: cat <bot_name>")
+    
+    if len(args) < 2:
+        print("Usage: truncate <bot_name> <length>")
         return
 
     bot_name = args[0]
-    nanobot = next((bot for bot in player.nanobots if bot.name == bot_name), None)
-
-    if nanobot is None:
-        print(f"No nanobot found with the name '{bot_name}'.")
+    try:
+        length = int(args[1])  # Catch ValueError for invalid length
+    except ValueError:
+        print("Error: Length must be an integer.")
         return
 
-    print(nanobot.logic)
+    nanobot_to_truncate = next((bot for bot in player.nanobots if bot.name == bot_name), None)
 
-def handle_head(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Display the first few lines of the nanobot's logic.
-
-    Usage:
-        head <bot_name>
-    """
-    if len(args) == 0:
-        print("Please provide the name of the nanobot. Usage: head <bot_name>")
+    if nanobot_to_truncate is None:
+        print(f"No nanobot found with the name '{bot_name}'. Find its name with `ls`!")
         return
 
-    bot_name = args[0]
-    nanobot = next((bot for bot in player.nanobots if bot.name == bot_name), None)
-
-    if nanobot is None:
-        print(f"No nanobot found with the name '{bot_name}'.")
+    if length < 0:
+        print("Error: Length must be non-negative.")
         return
 
-    # Display the first 3 lines of the logic
-    logic_lines = nanobot.logic.splitlines()
-    for line in logic_lines[:3]:
-        print(line)
+    truncated_logic = nanobot_to_truncate.logic[:length]
+    nanobot_to_truncate.logic = truncated_logic
+    nanobot_to_truncate.update_complexity()  # Update complexity after truncation
+    nanobot_to_truncate.parse_logic()  # Re-parse logic after truncation
+    player.save()
 
-def handle_tail(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Display the last few lines of the nanobot's logic.
-
-    Usage:
-        tail <bot_name>
-    """
-    if len(args) == 0:
-        print("Please provide the name of the nanobot. Usage: tail <bot_name>")
-        return
-
-    bot_name = args[0]
-    nanobot = next((bot for bot in player.nanobots if bot.name == bot_name), None)
-
-    if nanobot is None:
-        print(f"No nanobot found with the name '{bot_name}'.")
-        return
-
-    # Display the last 3 lines of the logic
-    logic_lines = nanobot.logic.splitlines()
-    for line in logic_lines[-3:]:
-        print(line)
+    print(f"Logic for '{bot_name}' truncated to {length} characters.")
