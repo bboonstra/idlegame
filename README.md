@@ -1,77 +1,77 @@
-# idlegame
+**idlegame** is a lightweight, terminal-based idle game designed to be played during downtime, such as while waiting for software builds or during short work breaks. It combines simple, casual gameplay with learning opportunities, particularly for those interested in command-line interfaces like zsh. Here's a breakdown of its features, installation steps, and how to play:
 
-[![PyPI](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml)
-[![Unit Tests](https://github.com/bboonstra/idlegame/actions/workflows/tests.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/tests.yml)
+---
 
-Ever find yourself stuck at your desk during slow moments in software development? **idlegame** is here to save the day! Whether you’re waiting for a build to finish or just need a quick breather, this idle game is your perfect companion to make those downtime moments a little more fun.
-
-## Installation
-
-Getting started with **idlegame** is a breeze. Just whip out your terminal and run:
+### **Installation**
+To install **idlegame**, you can easily do so using Python's package manager, `pip`. All it takes is the following command in your terminal:
 
 ```bash
 pip install idlegame
 ```
 
-## Usage
+This command will download and install the game on your system, making it ready to play in just seconds.
 
-Once it’s installed, you can jump right in by typing:
+---
+
+### **Usage**
+Once installed, simply launch the game by typing:
 
 ```bash
 idlegame
 ```
 
-## Features
+After running this command, you’ll be immersed in the idle game environment.
 
-- **Easy to Play**: I literally can't think of a way to make it easier. Install and run in 2 steps!
-- **Casual Gameplay**: Ideal for short breaks or when you need to step away from coding.
-- **Offline Play**: Even when you’re not actively playing, your nanobots are hard at work.
-- **IncrediSave**: Automatic saves mean you’ll never lose progress. It’s like magic.
+---
 
-## How To Play
+### **Features**
+- **Simplicity**: The game is incredibly easy to get started with. It's designed to be intuitive, making it accessible for anyone familiar with basic terminal commands.
+- **Casual Play**: Perfect for short breaks. You can step away from coding, and still have something fun to do without requiring too much focus.
+- **Offline Progress**: Even when you’re not actively playing, your in-game units (nanobots) continue to perform tasks.
+- **Auto-Saving**: The game automatically saves progress, ensuring you never lose your current status.
 
-**idlegame** is a game made for two purposes. One, to entertain you at work. Two, to teach you some zsh commands.
-To that end, every command in idlegame is a valid zsh command (or helper command, or real cli).
-Play the game by scripting nanobots with nano. These nanobots can collect resources, defend your filetree, and more.
+---
 
-For example,
+### **Gameplay Overview**
+In **idlegame**, you play by interacting with a zsh-like terminal environment. Commands you use within the game are valid zsh commands, making it a learning tool for mastering the terminal as well as a fun distraction.
 
-### Quickstart
+- **Nanobots**: These are the primary units in the game. You create and script them to carry out various tasks like mining for resources or defending against invasions.
+  
+For example, you can create a nanobot using the `nano` command, script its logic, and let it work for you while you're idle.
+
+### **Example Quickstart**
+In the game, you might start off by receiving a resource called a "nano core," which is used to create nanobots. Here's a typical command sequence to create a nanobot:
 
 ```zsh
-Logged in as: bb
-bb@idlegame % uptime
-Here, you'll be able to see what has happened since you last checked on the uptime of your nanobots.
-You can create a nanobot with `nano`, but it requires a nanocore. Here's one to get you started.
-Recieved: 1 basic nano core
 bb@idlegame % nano --name mine&defend -y
 Write the logic for your nanobot (type 'done' on a new line to finish):
 idle mine
 on invasion defend
 done
 Nanobot 'mine&defend' created!
-bb@idlegame % ls
-Name           Type      Idle Action    Event Actions                 Current Action                
-----------------------------------------------------------------------------------------------------
-mine&defend    Normal    Mine           On invasion: defend           Performing idle action: mine  
-----------------------------------------------------------------------------------------------------
-bb@idlegame % 
 ```
 
-The zsh above shows an efficient way to get started. Claim a nano core, and use it to create a Nanobot that mines for gold. However, if someone invades you, the Nanobot will help defend. This is a very useful all-purpose bot.
+This creates a bot that will mine for resources when idle and defend your base in case of invasion.
 
-## I'm stuck
+---
+
+### **Getting Unstuck**
+If you ever find yourself confused or stuck, **idlegame** includes a built-in help command:
 
 ```zsh
 man
 ```
 
-`man` will tell you anything you need to know! It will list all the commands available to you, or use `man [command name]` to get specifics.
+This command provides a manual explaining the game’s mechanics and available commands. If you need more specific help about a particular command, you can type `man [command]` to get more detailed information.
 
-## Contributing
+---
 
-Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
+### **Contributing**
+The game is open-source and welcomes contributions. If you have ideas, suggestions, or bug fixes, you can submit pull requests or open issues directly on the game's GitHub repository.
 
-## License
+---
 
-This project is licensed under the MIT License. Check out the [LICENSE](LICENSE) file for more details.
+### **License**
+The game is licensed under the MIT License, which means it's free to use, modify, and distribute. The full details are available in the LICENSE file in the repository.
+
+**idlegame** is a simple and engaging way to use downtime productively or just unwind. It merges basic scripting with casual gameplay, making it a fun tool for coders.
