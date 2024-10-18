@@ -1,77 +1,73 @@
-# idlegame
-
-[![PyPI](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml)
-[![Unit Tests](https://github.com/bboonstra/idlegame/actions/workflows/tests.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/tests.yml)
-
-Ever find yourself stuck at your desk during slow moments in software development? **idlegame** is here to save the day! Whether you’re waiting for a build to finish or just need a quick breather, this idle game is your perfect companion to make those downtime moments a little more fun.
-
-## Installation
-
-Getting started with **idlegame** is a breeze. Just whip out your terminal and run:
-
-```bash
-pip install idlegame
-```
-
-## Usage
-
-Once it’s installed, you can jump right in by typing:
-
-```bash
 idlegame
-```
+Introduction
+idlegame is a Python-based simulation game designed to both teach you zsh commands and entertain you in your downtime. It challenges players to build an unstoppable army of nanobots by gathering resources, defending your filetree, and using various commands in a zsh-like environment.
 
-## Features
+Features:
+Command-line Gameplay: Emulates a zsh-like command prompt to play the game.
+Nanobots: Create, manage, and upgrade your nanobots to gather resources and defend your system.
+Commands:
+nano: Create a new nanobot.
+rm: Remove nanobots and reclaim their resources.
+ls: List nanobots and their current logic.
+fsck: Fix and upgrade nanobots using gold.
+echo: Modify nanobot logic by echoing commands.
+top: View system complexity and safety levels.
+reboot: Reset the game and delete all save data.
+Player’s Guide
+Getting Started
+To begin, simply run the game using:
 
-- **Easy to Play**: I literally can't think of a way to make it easier. Install and run in 2 steps!
-- **Casual Gameplay**: Ideal for short breaks or when you need to step away from coding.
-- **Offline Play**: Even when you’re not actively playing, your nanobots are hard at work.
-- **IncrediSave**: Automatic saves mean you’ll never lose progress. It’s like magic.
+bash
+Copy code
+python run.py
+You’ll be greeted with a welcome message and can begin by typing one of the available commands. The primary objective is to create and manage nanobots that will work on your behalf to gather resources and protect your file system.
 
-## How To Play
+Commands
+nano: Create new nanobots to perform tasks. Nanobots need Nano Cores and specific logic for what they should do (e.g., idle mine or on invasion defend).
 
-**idlegame** is a game made for two purposes. One, to entertain you at work. Two, to teach you some zsh commands.
-To that end, every command in idlegame is a valid zsh command (or helper command, or real cli).
-Play the game by scripting nanobots with nano. These nanobots can collect resources, defend your filetree, and more.
+Example:
 
-For example,
+bash
+Copy code
+nano --type core --name miner
+ls: Lists all your nanobots and their current jobs.
 
-### Quickstart
+rm: Remove a nanobot to reclaim resources.
 
-```zsh
-Logged in as: bb
-bb@idlegame % uptime
-Here, you'll be able to see what has happened since you last checked on the uptime of your nanobots.
-You can create a nanobot with `nano`, but it requires a nanocore. Here's one to get you started.
-Recieved: 1 basic nano core
-bb@idlegame % nano --name mine&defend -y
-Write the logic for your nanobot (type 'done' on a new line to finish):
-idle mine
-on invasion defend
-done
-Nanobot 'mine&defend' created!
-bb@idlegame % ls
-Name           Type      Idle Action    Event Actions                 Current Action                
-----------------------------------------------------------------------------------------------------
-mine&defend    Normal    Mine           On invasion: defend           Performing idle action: mine  
-----------------------------------------------------------------------------------------------------
-bb@idlegame % 
-```
+Example:
 
-The zsh above shows an efficient way to get started. Claim a nano core, and use it to create a Nanobot that mines for gold. However, if someone invades you, the Nanobot will help defend. This is a very useful all-purpose bot.
+bash
+Copy code
+rm miner
+fsck: Fix and upgrade nanobots using gold.
 
-## I'm stuck
+echo: Modify a nanobot's logic. This allows you to program nanobots for different tasks.
 
-```zsh
-man
-```
+Example:
 
-`man` will tell you anything you need to know! It will list all the commands available to you, or use `man [command name]` to get specifics.
+bash
+Copy code
+echo "idle mine\non invasion defend" > miner
+top: View your system's complexity and safety level, which depends on the number of nanobots and their tasks.
 
-## Contributing
+Strategy Tips
+Balance Resource Gathering and Defense:
 
-Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
+Use nano to create nanobots that gather resources (idle mine), but don’t forget to have defense bots (on invasion defend) ready in case your system comes under attack.
+Upgrade and Fix Nanobots:
 
-## License
+Use fsck to upgrade and fix nanobots when they get damaged. This ensures they can keep working at peak efficiency.
+Avoid System Overload:
 
-This project is licensed under the MIT License. Check out the [LICENSE](LICENSE) file for more details.
+Monitor your system's complexity with top. A high complexity increases the risk of invasions, so balance nanobot creation and defense.
+Use Aliases to Save Time:
+
+If you find yourself using certain commands frequently, set up aliases to speed up gameplay.
+Don't Forget to Backup:
+
+Before making major changes, you might want to save your progress. The reboot command will reset everything, so be cautious when using it.
+Game Objectives
+Main Objective: Build a robust nanobot army to gather resources and defend your system from invasions.
+Secondary Objectives: Upgrade nanobots, improve your system's safety, and try to maintain balance between complexity and defense.
+Credits
+© 2024 Ben Boonstra | MIT License
