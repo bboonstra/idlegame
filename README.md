@@ -5,73 +5,111 @@
 
 Ever find yourself stuck at your desk during slow moments in software development? **idlegame** is here to save the day! Whether you’re waiting for a build to finish or just need a quick breather, this idle game is your perfect companion to make those downtime moments a little more fun.
 
-## Installation
-
-Getting started with **idlegame** is a breeze. Just whip out your terminal and run:
-
-```bash
-pip install idlegame
-```
-
-## Usage
-
-Once it’s installed, you can jump right in by typing:
-
-```bash
 idlegame
-```
+Overview
+idlegame is a game designed for two purposes: to entertain you during work and to teach you essential zsh commands. In this game, every command is a valid zsh command, allowing you to play while learning.
 
-## Features
+Getting Started
+Installation
+Clone the repository:
+bash
+Copy code
+git clone <repository-url>
+Navigate to the directory:
+bash
+Copy code
+cd idlegame
+Install the requirements:
+bash
+Copy code
+pip install -r requirements.txt
+Running the Game
+To start the game, run:
 
-- **Easy to Play**: I literally can't think of a way to make it easier. Install and run in 2 steps!
-- **Casual Gameplay**: Ideal for short breaks or when you need to step away from coding.
-- **Offline Play**: Even when you’re not actively playing, your nanobots are hard at work.
-- **IncrediSave**: Automatic saves mean you’ll never lose progress. It’s like magic.
+bash
+Copy code
+python run.py
+Player's Guide
+Commands
+Creating a Nanobot: Use the nano command to create a nanobot.
 
-## How To Play
+bash
+Copy code
+nano --name <bot_name> [-y]
+Example:
 
-**idlegame** is a game made for two purposes. One, to entertain you at work. Two, to teach you some zsh commands.
-To that end, every command in idlegame is a valid zsh command (or helper command, or real cli).
-Play the game by scripting nanobots with nano. These nanobots can collect resources, defend your filetree, and more.
+bash
+Copy code
+nano --name mine&defend -y
+Listing Nanobots: Use ls to list all nanobots and their statuses.
 
-For example,
+Removing a Nanobot: Use rm <bot_name> to remove a nanobot and reclaim its nano core.
 
-### Quickstart
+Fixing a Nanobot: Use fsck <bot_name> to fix a malfunctioning nanobot.
 
-```zsh
-Logged in as: bb
-bb@idlegame % uptime
-Here, you'll be able to see what has happened since you last checked on the uptime of your nanobots.
-You can create a nanobot with `nano`, but it requires a nanocore. Here's one to get you started.
-Recieved: 1 basic nano core
-bb@idlegame % nano --name mine&defend -y
-Write the logic for your nanobot (type 'done' on a new line to finish):
-idle mine
-on invasion defend
-done
-Nanobot 'mine&defend' created!
-bb@idlegame % ls
-Name           Type      Idle Action    Event Actions                 Current Action                
-----------------------------------------------------------------------------------------------------
-mine&defend    Normal    Mine           On invasion: defend           Performing idle action: mine  
-----------------------------------------------------------------------------------------------------
-bb@idlegame % 
-```
+Echoing Logic: Use echo to overwrite or append logic to a nanobot.
 
-The zsh above shows an efficient way to get started. Claim a nano core, and use it to create a Nanobot that mines for gold. However, if someone invades you, the Nanobot will help defend. This is a very useful all-purpose bot.
+bash
+Copy code
+echo "idle mine\non invasion defend" > <bot_name>  # To overwrite
+echo "\non invasion defend" >> <bot_name> # To append
+Viewing Nanobot Logic:
 
-## I'm stuck
+Display Full Logic: cat <bot_name>
+Display First Few Lines: head <bot_name>
+Display Last Few Lines: tail <bot_name>
+Truncate Logic: truncate -s <length> <bot_name>
+Utility Commands
+Logout Commands:
 
-```zsh
-man
-```
+logout - Exit the game.
+bye - Exit the game.
+exit - Exit the game.
+Help Command:
 
-`man` will tell you anything you need to know! It will list all the commands available to you, or use `man [command name]` to get specifics.
+man - Show help for commands.
+Uptime Command:
 
-## Contributing
+uptime - See what occurred while you were offline!
+Usage: uptime [--silent]
+Options: --silent - Suppress output messages.
+Learn about idlegame:
 
-Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
+idlegame - Use this command to learn about idlegame.
+Aliases:
 
-## License
+alias - Set or show your aliases.
+Usage: alias <alias_name> <command>
+Profile Check:
 
-This project is licensed under the MIT License. Check out the [LICENSE](LICENSE) file for more details.
+whoami - Check your profile.
+Usage: whoami [--short]
+Options: --short - Cut down on the size.
+Cron Commands:
+
+crontab - See what commands are ready to be used.
+System Monitoring:
+
+top - See your system's complexity and safety level.
+Usage: top
+System Management:
+
+reboot - DELETES ALL SAVE DATA.
+ssh - Manage connections with other systems.
+nmap - Scan for vulnerabilities.
+research - View research points and available upgrades.
+Features
+Interactive Nanobots: Create nanobots that can mine resources, defend your filetree, and respond to events.
+Event-Driven Actions: Script your nanobots with event-driven logic to enhance their capabilities.
+Resource Management: Manage your nano cores to create specialized nanobots for various tasks.
+Strategies
+Resource Allocation: Balance the creation of normal and specialized nanobots based on your resource needs.
+Event Handling: Utilize event actions effectively to ensure your nanobots respond appropriately to various situations.
+Maintenance: Regularly check and fix your nanobots to keep them operational and efficient.
+Contributing
+Contributions are welcome! Please create a pull request or open an issue to discuss changes.
+
+License
+This project is licensed under the MIT License.
+
+
