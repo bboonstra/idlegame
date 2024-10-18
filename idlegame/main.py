@@ -43,6 +43,7 @@ class CommandLineInterface(cmd.Cmd):
             "ssh": self.handle_ssh,
             "nmap": self.handle_nmap,
             "research": self.handle_research,
+            "edit": self.handle_edit,
         }
 
     def handle_top(self, player, *args, **kwargs):
@@ -198,6 +199,38 @@ class CommandLineInterface(cmd.Cmd):
     def do_help(self, player, *args, **kwargs):
         """Override the default help command."""
         print("Use 'man <command>' for help.")
+
+    def handle_edit(self, player, *args, **kwargs):
+        """Interactive text editor for writing basic logic or notes.
+
+        Usage:
+            edit <filename>
+
+        This command opens a simple text editor where you can write multiple lines of text. 
+        Use ":wq" to save and exit or ":q!" to discard and exit.
+        """
+        if not args:
+            print("Usage: edit <filename>")
+            return
+
+        filename = args[0]
+        lines = []
+
+        print("Opening basic text editor. Type your content below. Enter ':wq' to save and exit or ':q!' to discard and exit.")
+
+        while True:
+            line = input("> ")
+            if line == ":wq":
+                # Save the content to a file or to player's storage
+                with open(filename, 'w') as f:
+                    f.write("\n".join(lines))
+                print(f"Content saved to {filename}")
+                break
+            elif line == ":q!":
+                print("Content discarded.")
+                break
+            else:
+                lines.append(line)
 
     def default(self, line):
         # Split input and handle quoted strings
