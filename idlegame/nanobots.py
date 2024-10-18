@@ -78,28 +78,32 @@ class Nanobot:
             return f"Performing idle action: {self.idle_action}"
         return "IDLE"
 
-def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Write a new nanobot.
+def interactive_nanobot_logic():
+    """Interactive text editor for creating nanobot logic, allowing edits to previous lines."""
+    lines = []
+    print("Write the logic for your nanobot (type 'done' on a new line to finish, 'edit X' to edit line X):")
 
-        Usage:
-            nano [--type <nanotype>] [--name <name>] [-y]
+    while True:
+        line = input()
+        if line == 'done':
+            break
+        elif line.startswith('edit'):
+            try:
+                line_num = int(line.split()[1]) - 1
+                if 0 <= line_num < len(lines):
+                    print(f"Editing line {line_num + 1}: {lines[line_num]}")
+                    lines[line_num] = input("New content: ")
+                else:
+                    print("Invalid line number.")
+            except (IndexError, ValueError):
+                print("Usage: 'edit X' where X is the line number.")
+        else:
+            lines.append(line)  
         
-        Requires:
-            1 Nano Core
-            --type: 1 typed core
+        return '\n'.join(lines)
 
-        Scripting:
-            Use the `idle` parameter for an idle job
-            Use the `on` parameter for an event-driven job
-            Use the `done` parameter to finish scripting
-            Example:
-                idle mine
-                on attacking attack
-                on defending defend
-                done
-
-        """
-    
+def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
+    """Create a new nanobot with interactive logic input."""
     bot_type = kwargs.get('type')
     bot_name = kwargs.get('name')
     auto_accept = kwargs.get('y', False) is not False
@@ -131,6 +135,7 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
     print("Write the logic for your nanobot (type 'done' on a new line to finish):")
     nano_logic = '\n'.join(iter(input, 'done'))
 
+    nano_logic = interactive_nanobot_logic()
     new_nanobot = Nanobot(name=bot_name, logic=nano_logic.strip(), type=nanobot_type)
     player.nanobots.append(new_nanobot)
     player.nano_cores['normal'] -= 1
