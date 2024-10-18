@@ -84,6 +84,8 @@ man
 Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
 ### Check out [CONTRIBUTING](CONTRIBUTING.md) to get started!
 
+Enjoying idlegame? Give us a star on GitHub!
+
 ## License
 
 This project is licensed under the MIT License. Check out the [LICENSE](LICENSE) file for more details.
