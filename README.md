@@ -3,9 +3,8 @@
 [![PyPI](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/pypi.yml)
 [![Unit Tests](https://github.com/bboonstra/idlegame/actions/workflows/tests.yml/badge.svg)](https://github.com/bboonstra/idlegame/actions/workflows/tests.yml)
 
-#### PyPI Unit Tests
-
 Ever find yourself stuck at your desk during slow moments in software development? idlegame is here to save the day! Whether you're waiting for a build to finish or just need a quick breather, this idle game is your perfect companion to make those downtime moments more fun and productive. Script your nanobots, collect resources, and defend your filetree, all while learning some handy zsh commands along the way.
+
 ## Installation
 
 Getting started with idlegame is a breeze. Open your terminal and run:
@@ -31,29 +30,21 @@ idlegame
 
 + IncrediSave: Automatic saving ensures you'll never lose your progress.
 
-+ zsh Commands: All game commands are valid zsh commands, helping you learn or sharpen your command-line skills.
++ ZSH Commands: All game commands are valid zsh commands, helping you learn or sharpen your command-line skills.
 
 ## How To Play
 
-idlegame is an idle simulation where you script nanobots to collect resources, defend your filetree, and perform other tasks.
+idlegame is an idle simulation where you script nanobots to collect resources, defend your filetree, and perform other tasks. It was for two purposes: one, to entertain you at work, and two, to teach you some zsh commands. To that end, every command in idlegame is a valid zsh command (or helper command, or real cli).
 
 ### Quickstart
 
-When you first start the game, you’ll be logged in as a user (e.g., bb) and can check on the status of your nanobots by typing:
-
-## How To Play
-
-idlegame is an idle simulation where you script nanobots to collect resources, defend your filetree, and perform other tasks.
-
-### Quickstart
-
-When you first start the game, you’ll be logged in as a user (e.g., bb) and can check on the status of your nanobots by typing:
+When you first start the game, you’ll be logged in via your username and can check on the status of your nanobots by typing:
 
 ```bash
 bb@idlegame % uptime
 ```
 
-This will show you how long your nanobots have been working since your last session. Next, you'll need to create a nanobot using a nano core (a key resource in the game). Here's how you can get started:
+This will show you how long your nanobots have been working since your last session, if you have any. Next, you'll need to create a nanobot using a nano core (a key resource in the game). Here's how you can get started:
 
 ```bash
 bb@idlegame % nano --name mine&defend -y
@@ -74,16 +65,20 @@ This bot will mine resources during idle time but switch to defense mode if your
 1. Resource Management: Script nanobots to mine, gather resources, and expand your capabilities.
 2. Filetree Defense: Your filetree can be invaded, so it's important to have nanobots ready to defend.
 3. Automation Mastery: Efficiently script your nanobots to handle multiple tasks autonomously.
-### Commands
+
+### Basic Commands
 + nano: Create and script nanobots using a nano core.
 + uptime: Check the overall activity and status of your nanobots.
 + man: Get a detailed list of available commands and their usage.
 
+### Advanced Commands
++ See a list of all commands using `man`.
+
 ### Strategy Tips
 + Balance Offense and Defense: Create specialized nanobots—some focused on resource mining and others on defending your filetree. Diversify to ensure survival during invasions.
 + Optimize Idle Time: Ensure your nanobots are always doing something useful, whether it's mining, defending, or exploring.
-+ Use man Command: When you're stuck, use man to explore all available commands. It’s your go-to guide for learning the ropes.
 + Expand Your Workforce: As you gather more nano cores, create additional nanobots to speed up resource collection and improve defense strategies.
+
 ## I'm Stuck!
 If you're ever unsure about a command or how to proceed, just type:
 
