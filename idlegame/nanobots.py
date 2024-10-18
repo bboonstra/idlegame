@@ -14,6 +14,19 @@ class Nanotype(Enum):
     HACKER = "hacker"
     DIPLOMAT = "diplomat"
 
+# Modify your Nanobot creation process to include the interactive editor
+def create_nanobot_with_logic(name: str, type: Nanotype):
+    print(f"Creating Nanobot '{name}' of type {type}")
+    
+    # Start the interactive logic editor
+    logic = interactive_text_editor()
+    
+    # Create the Nanobot with the provided logic
+    nanobot = Nanobot(name=name, logic=logic, type=type)
+    
+    return nanobot
+
+
 class Nanobot:
     def __init__(self, name: str, logic: str, type: Nanotype):
         self.name = name
