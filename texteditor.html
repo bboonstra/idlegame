@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Text Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+    <style>
+        .CodeMirror {
+            border: 1px solid #ddd;
+            height: auto;
+        }
+
+        #editor-container {
+            width: 80%;
+            margin: auto;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Interactive Text Editor for Basic Logic Writing</h1>
+    <div id="editor-container"></div>
+    <button id="run-logic">Run Logic</button>
+    <pre id="output"></pre>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
+    <script>
+        const editor = CodeMirror(document.getElementById('editor-container'), {
+            lineNumbers: true,
+            mode: 'javascript',
+            theme: 'default',
+        });
+
+        document.getElementById('run-logic').addEventListener('click', () => {
+            const userInput = editor.getValue();
+            let output;
+
+            try {
+                output = eval(userInput);
+            } catch (error) {
+                output = error.toString();
+            }
+
+            document.getElementById('output').textContent = output;
+        });
+    </script>
+</body>
+
+</html>
