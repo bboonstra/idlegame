@@ -89,15 +89,9 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
             --type: 1 typed core
 
         Scripting:
-            Use the `idle` parameter for an idle job
-            Use the `on` parameter for an event-driven job
-            Use the `done` parameter to finish scripting
-            Example:
-                idle mine
-                on attacking attack
-                on defending defend
-                done
-
+            Use the `edit <line_number>` command to edit a specific line.
+            Use the `delete <line_number>` command to remove a line.
+            Type 'done' when finished.
         """
     
     bot_type = kwargs.get('type')
@@ -128,10 +122,53 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
         print("Error: A bot with this name already exists. Please choose a unique name.")
         return
     
-    print("Write the logic for your nanobot (type 'done' on a new line to finish):")
-    nano_logic = '\n'.join(iter(input, 'done'))
+    # Display command instructions at the start
+    print("\n--- Nanobot Logic Entry Commands ---")
+    print("Commands:")
+    print("1. <command> - Add a new line of logic.")
+    print("2. edit <line_number> - Edit a specific line.")
+    print("3. delete <line_number> - Remove a line.")
+    print("4. done - Finalize and create the nanobot.")
+    print("-------------------------------------\n")
 
-    new_nanobot = Nanobot(name=bot_name, logic=nano_logic.strip(), type=nanobot_type)
+    # Logic for interactive input
+    nano_logic = []
+    
+    while True:
+        # Display current logic
+        if nano_logic:
+            print("Current Logic:")
+            for i, line in enumerate(nano_logic, start=1):
+                print(f"{i}: {line}")
+        
+        # Get user input
+        user_input = input("> ").strip()
+        
+        if user_input.lower() == 'done':
+            break
+        elif user_input.startswith('edit '):
+            try:
+                line_num = int(user_input.split()[1]) - 1
+                if 0 <= line_num < len(nano_logic):
+                    new_line = input(f"Edit line {line_num + 1}: ")
+                    nano_logic[line_num] = new_line
+                else:
+                    print("Error: Line number out of range.")
+            except (ValueError, IndexError):
+                print("Error: Invalid edit command.")
+        elif user_input.startswith('delete '):
+            try:
+                line_num = int(user_input.split()[1]) - 1
+                if 0 <= line_num < len(nano_logic):
+                    nano_logic.pop(line_num)
+                else:
+                    print("Error: Line number out of range.")
+            except (ValueError, IndexError):
+                print("Error: Invalid delete command.")
+        else:
+            nano_logic.append(user_input)
+
+    new_nanobot = Nanobot(name=bot_name, logic='\n'.join(nano_logic).strip(), type=nanobot_type)
     player.nanobots.append(new_nanobot)
     player.nano_cores['normal'] -= 1
     if bot_type:
@@ -139,6 +176,7 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
     player.save()
 
     print(f"Nanobot '{bot_name}' created!")
+
 
 def handle_remove(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Remove a nanobot and reclaim its nano core(s).
