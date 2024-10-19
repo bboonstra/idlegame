@@ -3,6 +3,10 @@ from enum import Enum
 from idlegame import config
 import time
 import sys
+try:
+    import readline
+except ImportError:
+    pass  # readline not available
 
 class Nanotype(Enum):
     NORMAL = "normal"
@@ -79,26 +83,22 @@ class Nanobot:
         return "IDLE"
 
 def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
-    """Write a new nanobot.
+    """Write a new nanobot with an interactive editor.
 
-        Usage:
-            nano [--type <nanotype>] [--name <name>] [-y]
-        
-        Requires:
-            1 Nano Core
-            --type: 1 typed core
+    Usage:
+        nano [--type <nanotype>] [--name <name>] [-y]
+    
+    Requires:
+        1 Nano Core
+        --type: 1 typed core
 
-        Scripting:
-            Use the `idle` parameter for an idle job
-            Use the `on` parameter for an event-driven job
-            Use the `done` parameter to finish scripting
-            Example:
-                idle mine
-                on attacking attack
-                on defending defend
-                done
-
-        """
+    Editor Commands:
+        :q  - Quit without saving
+        :w  - Save and exit
+        :e <line_number> - Edit a specific line
+        :d <line_number> - Delete a specific line
+        :l  - List all lines
+    """
     
     bot_type = kwargs.get('type')
     bot_name = kwargs.get('name')
@@ -128,18 +128,57 @@ def handle_nano(player: AutosavedPlayer, *args, **kwargs) -> None:
         print("Error: A bot with this name already exists. Please choose a unique name.")
         return
     
-    print("Write the logic for your nanobot (type 'done' on a new line to finish):")
-    nano_logic = '\n'.join(iter(input, 'done'))
+    print("Write the logic for your nanobot. Use editor commands to navigate:")
+    print(":q - Quit without saving")
+    print(":w - Save and exit")
+    print(":e <line_number> - Edit a specific line")
+    print(":d <line_number> - Delete a specific line")
+    print(":l - List all lines")
 
-    new_nanobot = Nanobot(name=bot_name, logic=nano_logic.strip(), type=nanobot_type)
+    lines = []
+    while True:
+        try:
+            line = input("> ")
+            if line == ":q":
+                print("Exiting without saving.")
+                return
+            elif line == ":w":
+                break
+            elif line.startswith(":e "):
+                try:
+                    line_num = int(line.split()[1]) - 1
+                    if 0 <= line_num < len(lines):
+                        lines[line_num] = input(f"Edit line {line_num + 1}: ")
+                    else:
+                        print("Invalid line number.")
+                except ValueError:
+                    print("Invalid line number.")
+            elif line.startswith(":d "):
+                try:
+                    line_num = int(line.split()[1]) - 1
+                    if 0 <= line_num < len(lines):
+                        del lines[line_num]
+                        print(f"Line {line_num + 1} deleted.")
+                    else:
+                        print("Invalid line number.")
+                except ValueError:
+                    print("Invalid line number.")
+            elif line == ":l":
+                for i, l in enumerate(lines, 1):
+                    print(f"{i}: {l}")
+            else:
+                lines.append(line)
+        except EOFError:
+            print("\nExiting without saving.")
+            return
+
+    nano_logic = '\n'.join(lines)
+
+    new_nanobot = Nanobot(name =bot_name, logic=nano_logic, nanotype=nanobot_type) # type: ignore
+    player.nano_cores[nanobot_type.name.lower()] -= 1
     player.nanobots.append(new_nanobot)
-    player.nano_cores['normal'] -= 1
-    if bot_type:
-        player.nano_cores[bot_type.lower()] -= 1
-    player.save()
-
-    print(f"Nanobot '{bot_name}' created!")
-
+    print(f"New {nanobot_type.name.lower()} nanobot created: {bot_name}")
+    
 def handle_remove(player: AutosavedPlayer, *args, **kwargs) -> None:
     """Remove a nanobot and reclaim its nano core(s).
 

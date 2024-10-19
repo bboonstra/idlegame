@@ -27,6 +27,13 @@ idlegame
 - **Casual Gameplay**: Ideal for short breaks or when you need to step away from coding.
 - **Offline Play**: Even when you’re not actively playing, your nanobots are hard at work.
 - **IncrediSave**: Automatic saves mean you’ll never lose progress. It’s like magic.
+- **Terminal-Based Gameplay**: Emulates a zsh command line for an authentic CLI experience.
+- **Nanobot Management**: Create and manage nanobots with various specializations.
+- **Resource Gathering**: Mine gold, collect nano cores, and manage your economy.
+- **Defense System**: Protect your file tree from invasions.
+- **Offline Progression**: Your nanobots work even when you're not actively playing.
+- **Educational**: Learn real zsh commands while playing.
+- **Upgrades and Packages**: Expand your capabilities as you progress.
 
 ## How To Play
 
@@ -34,7 +41,50 @@ idlegame
 To that end, every command in idlegame is a valid zsh command (or helper command, or real cli).
 Play the game by scripting nanobots with nano. These nanobots can collect resources, defend your filetree, and more.
 
-For example,
+
+## Player's Guide
+
+### 1. Create a nanobot
+- **Getting Started**
+- Use uptime to claim your first nano core.
+- Create a nanobot with nano --name miner1 and give it the command idle mine.
+- Use ls to view your nanobots and their status.
+- Periodically use uptime to claim resources gathered by your nanobots.
+
+- **Key Commands**
+- man: Access the manual for game commands.
+- nano: Create new nanobots.
+- ls: List your nanobots and their actions.
+- uptime: Claim offline progress and rewards.
+- rm: Remove a nanobot (and reclaim its core).
+- whoami: Check your profile and stats.
+- apt: Install new packages (once unlocked).
+
+- **Nanobot Types**
+- Normal: Versatile, basic nanobots.
+- Miner: Specialized in gold mining.
+- Fighter: Enhanced defense capabilities.
+- Super: Excels in both mining and defense.
+- Warper: Unique time-manipulation abilities.
+- Researcher: Improves learning and upgrades.
+- Hacker: Specialized in finding vulnerabilities.
+- Diplomat: Enhances connections and trade.
+
+- **Strategy Tips**
+- Balanced Approach: Create a mix of miner and defender nanobots early on.
+- Upgrade Regularly: Use apt to install new packages and expand your capabilities.
+- Manage Complexity: Keep an eye on your system complexity with top. Higher complexity attracts stronger invasions.
+- Use Aliases: Create aliases for frequently used commands to save time.
+- Defend Wisely: Ensure you have enough defending nanobots before logging off for extended periods.
+- Explore Commands: Experiment with different commands to discover hidden features and strategies.
+
+- **Advanced Features**
+- Time Travel: Use time crystals for powerful temporal effects.
+- Research Points: Accumulate and spend on advanced upgrades.
+- Connections: Establish diplomatic connections for trade benefits.
+- Hacking: Attempt to gain resources through system vulnerabilities.
+
+- **idlegame** is a game that evolves with your skills and knowledge of zsh commands
 
 ### Quickstart
 
@@ -68,23 +118,9 @@ man
 
 `man` will tell you anything you need to know! It will list all the commands available to you, or use `man [command name]` to get specifics.
 
-## Player's Guide
--- **Experiment with Commands**: Don’t hesitate to try out different zsh commands to see how they interact with your nanobots. The more you explore, the more effective your bots will become!
-
--- **Strategize Your Nanobots**: Think carefully about how you want your nanobots to behave. Create specialized bots for different tasks, such as mining, defending, or resource gathering. A balanced team will yield better results.
-
--- **Stay Updated**: Keep an eye on the commands and features available. New updates may introduce new commands or improve existing ones, enhancing your gameplay experience.
-
--- **Utilize man Wisely**: The man command is your best friend! Use it to familiarize yourself with available commands and their functionalities.
-
--- **Join the Community**: Engage with other players or contribute to the development of idlegame. Sharing tips, tricks, and feedback can lead to a more enjoyable experience for everyone.
-
 ## Contributing
 
 Got ideas or feedback? We’d love to hear from you! Feel free to submit a pull request or open an issue on the GitHub repo. Your thoughts can make **idlegame** even better :>
-### Check out [CONTRIBUTING](CONTRIBUTING.md) to get started!
-
-Enjoying idlegame? Give us a star on GitHub!
 
 ## License
 

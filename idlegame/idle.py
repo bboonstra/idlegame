@@ -140,6 +140,9 @@ def handle_crontab(player, *args, **kwargs):
         else:
             print("TRIVIA is ready!")
 
-    time_offline = now - player.last_claim_timestamp
-    total_seconds_offline = int(time_offline.total_seconds())
-    print(f"Uptime: {total_seconds_offline // 60}min {total_seconds_offline % 60}sec")
+    if player.last_claim_timestamp is not None:
+        time_offline = now - player.last_claim_timestamp
+        total_seconds_offline = int(time_offline.total_seconds())
+        print(f"Uptime: {total_seconds_offline // 60}min {total_seconds_offline % 60}sec")
+    else:
+        print("Uptime: Not available (last claim timestamp not set)")
