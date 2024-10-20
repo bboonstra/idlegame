@@ -111,12 +111,18 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
     # Print the results unless in silent mode
     if not silent_mode:
         print(f"You were offline for {total_seconds_offline // 60} minutes.")
-        print(f"You mined {gold_gathered} gold!")
-        print(f"You learned {skills_learned} new zsh skills!")
-        print(f"Your hackers attempted {scan_attempts} scans, succeeding {scan_successes} times.")
-        print(f"Your diplomats attempted to form {connection_attempts} connections.")
-        print(f"You now have {len(player.connections)} active connections.")
-        print(f"{invasions_total} invasions occurred during your offline time.")
+        if gold_gathered > 0:
+            print(f"You mined {gold_gathered} gold!")
+        if skills_learned > 0:
+            print(f"You learned {skills_learned} new zsh skills!")
+        if scan_successess > 0:
+            print(f"Your hackers attempted {scan_attempts} scans, succeeding {scan_successes} times.")
+        if connection_attempts > 0:
+            print(f"Your diplomats attempted to form {connection_attempts} connections.")
+        if len(player.connections) > 0:
+	          print(f"You now have {len(player.connections)} active connections.")
+        if invasions_total > 0:
+	          print(f"{invasions_total} invasions occurred during your offline time.")
         if nanobots_broken > 0:
             print(f"{nanobots_broken} of your bots were broken during the invasions.")
     
