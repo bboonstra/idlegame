@@ -30,7 +30,7 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
         player.save()
         print("Here, you'll be able to see what has happened since you last checked on the uptime of your nanobots.")
         print("You can create a nanobot with `nano`, but it requires a nanocore. Here's one to get you started.")
-        print("Recieved: 1 basic nano core")
+        print("Received: 1 basic nano core")
         return
 
     # Calculate time difference since last claim
@@ -94,8 +94,6 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
             nanobots_broken += simulate_defense(player, defending_bots)
             # TODO logic if you lose
 
-
-
     player.research_points += skills_learned
     player.scan_attempts += scan_attempts
     player.scan_successes += scan_successes
@@ -110,17 +108,43 @@ def handle_claim(player: AutosavedPlayer, *args, **kwargs) -> None:
 
     # Print the results unless in silent mode
     if not silent_mode:
-        print(f"You were offline for {total_seconds_offline // 60} minutes.")
-        print(f"You mined {gold_gathered} gold!")
-        print(f"You learned {skills_learned} new zsh skills!")
-        print(f"Your hackers attempted {scan_attempts} scans, succeeding {scan_successes} times.")
-        print(f"Your diplomats attempted to form {connection_attempts} connections.")
-        print(f"You now have {len(player.connections)} active connections.")
-        print(f"{invasions_total} invasions occurred during your offline time.")
+        print(f"You were offline for {total_seconds_offline // 60} minutes.")  # Fixed indentation here
+
+        # Keep track of whether anything happened
+        something_happened = False
+
+        if gold_gathered > 0:
+            print(f"You mined {gold_gathered} gold!")
+            something_happened = True
+
+        if skills_learned > 0:
+            print(f"You learned {skills_learned} new zsh skills!")
+            something_happened = True
+
+        if scan_attempts > 0:
+            print(f"Your hackers attempted {scan_attempts} scans, succeeding {scan_successes} times.")
+            something_happened = True
+
+        if connection_attempts > 0:
+            print(f"Your diplomats attempted to form {connection_attempts} connections.")
+            something_happened = True
+
+        if len(player.connections) > 0:
+            print(f"You now have {len(player.connections)} active connections.")
+            something_happened = True
+
+        if invasions_total > 0:
+            print(f"{invasions_total} invasions occurred during your offline time.")
+            something_happened = True
+
         if nanobots_broken > 0:
             print(f"{nanobots_broken} of your bots were broken during the invasions.")
-    
-    install_package(player, 'apt')
+            something_happened = True
+
+        # If nothing happened, print the 'nothing happened' message
+        if not something_happened:
+            print("Nothing happened since you last checked!")
+            install_package(player, 'apt')
 
 def handle_crontab(player, *args, **kwargs):
     """See what commands are ready to be used.
